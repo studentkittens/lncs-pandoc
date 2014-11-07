@@ -37,4 +37,50 @@ Git--annex is a free software application for ,,distributed file management".
 * git--based, git tracks complete history, binary files not recommended
 
 
+# Git--annex remotes
+
+* Special Remotes, Dropbox, Google Cloud etc
+* Archive Remotes, Amazon Glacier
+* USB Drives
+
+* own remotes possible by providing interfaces
+
+# Features
+
+* excluding filetypes
+
+# Repository Groups
+
+* all content, excludes archive dir
+
+
+# Security
+
+* repository trust
+* encryption
+* adding number of min copies
+
+## Encryption
+
+* hybrid
+* shared
+* none
+
+## Additional features
+
+* data integrity -> fsck
+* git annex watch, assistant, webapp
+
+## Misc
+
+* Collision handling
+* Test-Suite
+* end to end encryption for cloud services
+* videos and good introduction
+
+## Conclusion
+
+* nice tool
+
+
 # References
