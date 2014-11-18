@@ -154,15 +154,22 @@ as remotes.
 
 ## Encryption
 
+* restrict access or encrypt to obtain security
+* GPG does encryption
 * usually no encryption, everyone sees content that can access repository
 * hybrid (recommended), adding keys later is possible, not possible to block person 
-* shared
+* share encryption key
+* regular public key encryption and MAC
 * none
+* encrlypt remote git repositories with gcrypt
 
 ## Additional features
 
-* data integrity -> fsck
-* git annex watch, assistant, webapp
+* data integrity -> fsck -> verifies checksum (sha1) -> corrupted data goes to .git/annex/bad
+* git annex watch
+* assistant, simplifies usage 
+* webapp, simplifies usage
+* whereis -> location tracking
 
 ## Misc
 
