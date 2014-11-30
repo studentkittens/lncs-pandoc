@@ -51,7 +51,7 @@ unchanged/valid). Therefor a backup and restore strategy (validating the
 integrity of data) is needed.
 
 There are numerous ways check or ensure data integrity. One possibility would be
-to use filesystems like ZFS or BTRFS which by itself ensure that your data
+to use filesystems like `ZFS` or `BTRFS` which by itself ensure that your data
 doesn't get corrupted. These filesystems have the ability to detect and avoid
 avoid data corruption [^dataintegrity]. Another possibility to identify data
 corruption is by checksumming [^checksum] the data. 
@@ -62,9 +62,13 @@ standard encryption should be used [^dataencryption].
 To implement above backup strategy usually different tools are needed. Another
 concept that also intends to deal with the issues above is `git--annex`. It is a
 tool for file synchronisation and archival purposes. This paper aims to give a
-introduction to the `git--annex` basics and its features.
+introduction to the `git--annex` basics and its core features.
 
-## Git--annex overview
+
+
+# git--annex 
+
+## Overview 
 
 The tool named `git--annex` is a tool that aims to synchronize one's data while
 addressing all the issues that automatically come with cloud storage services
@@ -92,6 +96,63 @@ is also a fancy web-based GUI that allows the non-technical user to use
 Dropbox--Client.
 
 
+## Repositories and remotes
+
+The `git-annex` concept is based on usual `git` repositories. Meta data is
+synchronized between repositories. A repositories is the place where a copy of
+your meta data is stored. As `git` works in a distributed way, `git-annex` is
+able to share files across different repositories also in a distributed way,
+compared to the usual way using cloud storage provider, where usually a
+centralized approach is used.
+
+A `git`-repository is containing a `.git`-folder which contains information
+about the repository like, available remotes, user identity and so on. For a
+complete list see [^dotgit]. `Git-annex` extends this folder structure by adding
+a `annex` folder to it. In this place `git-annex` related information is hold.
+When adding a file to `git-annex`, the file gets moved to the
+`.git/annex/objects/`-folder and a symbolic link to the data is created by
+default. This is a `git-annex` feature to avoid unwanted manipulation of the
+data. The filename itself is renamed in a way which name represents the
+cryptographic hash sum of the data itself. In this way the data might be
+validated by using the `git annex fsck filename.ext` command.
+
+~~~sh
+$ git annex add 
+~~~
+
+
+## Git-annex usage
+
+To initialize a `git-annex`-repository first you have to initialize a
+`git`-repository. The complete procedure looks as the following shell session
+demonstrates:
+
+~~~sh
+$ git init 'repositoryname'
+$ cd 'repositoryname'
+$ git annex init 'annex-repository-name'
+~~~
+
+The created `git`-repository now may be modified using the usual `git`-commands.
+Adding a remote repository for synchronization can be achieved by running the
+`git remote add <repo-name> <repo-path>` command.
+
+
+All data manipulation commands are related to the `git-annex`-command set. A
+complete procedure looks this way:
+
+~~~sh
+$ git annex add filename.ext
+$ git commit -m 'file added.'
+$ git push # pull
+~~~
+
+Committing files on every change might seem very uncomfortable, because of the
+reason there is a monitoring daemon included in git annex. To automate the
+complete procedure the daemon can be started by running `git annex watch`. Now
+all files added to the directory are committed automatically.
+
+
 
 * There are different tools like rsync, robocopy, one could write a script to
   backup stuff.
@@ -99,13 +160,7 @@ Dropbox--Client.
   scenarios of todays infrastructure.
 * Idea why jhess wrote git annex.
 
-* reports
-    * http://www.engadget.com/2014/10/13/dropbox-selective-sync-bug/
-    * http://techcrunch.com/2011/06/20/dropbox-security-bug-made-passwords-optional-for-four-hours/
-    * http://www.h-online.com/security/news/item/Dropbox-left-login-door-open-for-4-hours-1264195.html
 
-* Why should we trust cloud services?
-* git--based, git tracks complete history, binary files not recommended
 
 * Usually there is not problem to have different devs like phone, tablet,
   laptop, desktop... but...data is not always avaiable. One may use dropbox but
@@ -246,9 +301,7 @@ as remotes.
 # References
 
 [^dataloss]: http://www.zdnet.com/dropbox-sync-glitch-results-in-lost-data-for-some-subscribers-7000034610/ 
-
 [^unauthorizedaccess]: http://www.cnet.com/news/dropbox-confirms-security-glitch-no-password-required/ 
-
 [^storageproviders] http://www.tomshardware.com/reviews/cloud-storage-provider-comparison,3905.html
 [^piracy] http://techcrunch.com/2012/01/19/megaupload-taken-down-on-piracy-allegations/
 [^prism] http://www.cnet.com/news/what-is-the-nsas-prism-program-faq/
@@ -257,3 +310,4 @@ as remotes.
 [^dataintegrity] http://en.wikipedia.org/wiki/Data_integrity 
 [^checksum] http://en.wikipedia.org/wiki/Checksum 
 [^dataencryption] http://en.wikipedia.org/wiki/Encryption
+[^dotgit] http://gitready.com/advanced/2009/03/23/whats-inside-your-git-directory.html 
