@@ -1,17 +1,13 @@
 ---
 documentclass: llncs
-title: The power of dark silicon
-author: Darth Vader
-institute: the research facility
-email: "darth.vader@hs-augsburg.de"
-keywords: hope, luke, ewoks
+title: Docker Application containers and sandboxing
+author: Christopher Pahl
+institute: University of applied science Augsburg
+email: "christopher.pahl@hs-augsburg.de"
+keywords: docker, deployment, container, sandbox
 abstract: | 
-    Sit amet mauris. Curabitur a quam. Aliquam neque. Nam nunc nunc,
-    lacinia sed, varius quis, iaculis eget, ante. Nulla dictum justo eu lacus.
-    Phasellus sit amet quam. Nullam sodales. Cras non magna eu est consectetuer
-    faucibus. Donec tempor lobortis turpis. Sed tellus velit, ullamcorper ac,
-    fringilla vitae, sodales nec, purus. Morbi aliquet risus in mi.
 
+    Docker is a new approach to deployment.
 ...
 
 
