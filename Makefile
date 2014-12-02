@@ -1,6 +1,6 @@
 all: pandoc
 	rm -f paper.pdf
-	@latexmk -pdf paper.tex
+	latexmk -pdf paper.tex > /dev/null
 
 pandoc:
 	pandoc --biblio paper.bib --csl ieee.csl -N -o paper.tex --template=llncs paper.md

@@ -7,7 +7,12 @@ email: "christopher.pahl@hs-augsburg.de"
 keywords: docker, deployment, container, sandbox
 abstract: | 
 
-    Docker is a new approach to deployment.
+    Docker is a new approach to deployment targeted at making distributing
+    software easier and faster. 
+
+    Besides deployment, docker can be used for tasks like sandboxing, creating
+    testbeds for small to large applications and generally as an alternative
+    for many usecases where hardware virtualization was used previously.
 ...
 
 
