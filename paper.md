@@ -66,9 +66,9 @@ introduction to the `git--annex` basics and its core features.
 
 
 
-# git--annex 
+# Git--annex overview
 
-## Overview 
+## Project details
 
 The tool named `git--annex` is a tool that aims to synchronize one's data while
 addressing all the issues that automatically come with cloud storage services
@@ -95,15 +95,18 @@ is also a fancy web-based GUI that allows the non-technical user to use
 `git--annex` for file synchronization in a comfortable way like using e.g. the
 Dropbox--Client.
 
+## Distributed file synchronisation
 
-## Repositories and remotes
+    * pics
+
+## Git annex essentials
 
 The `git-annex` concept is based on usual `git` repositories. Meta data is
 synchronized between repositories. A repositories is the place where a copy of
 your meta data is stored. As `git` works in a distributed way, `git-annex` is
 able to share files across different repositories also in a distributed way,
 compared to the usual way using cloud storage provider, where usually a
-centralized approach is used.
+centralized approach is used. For more information about `git` see, [^git].
 
 A `git`-repository is containing a `.git`-folder which contains information
 about the repository like, available remotes, user identity and so on. For a
@@ -114,23 +117,47 @@ When adding a file to `git-annex`, the file gets moved to the
 default. This is a `git-annex` feature to avoid unwanted manipulation of the
 data. The filename itself is renamed in a way which name represents the
 cryptographic hash sum of the data itself. In this way the data might be
-validated by using the `git annex fsck filename.ext` command.
+validated by using the `git annex fsck file.ext` command.
 
-~~~sh
-$ git annex add 
+As the symbolic link approach is not always a wanted behavior, there is also the
+`git annex direct` mode. This mode is also used when symbolic links are not
+supported by the filesystem, this is the case when using a filesystem like the
+fat-filesystem. The `direct` mode is also used by the `git annex assistant`,
+see[^assistant].
+
+The repository and remote configuration itself is saved inside the `.git/config`
+file. This file is provided by `git` and extended by `git-annex` for its
+purposes. A repository is represented by a unique id (UUID), a typical extended
+`.git/config` file:
+
+
+~~~
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[annex]
+	uuid = 59a11cf0-0c01-4298-bb94-71c6593caa5b
+	version = 5
+[remote "temp"]
+	url = /tmp/gannex
+	fetch = +refs/heads/*:refs/remotes/temp/*
+	annex-uuid = b6e1928e-af46-4478-88e1-d17882fdc9f7
 ~~~
 
+## Command line typical usage 
 
-## Git-annex usage
+### Creating a git-annex repository
 
 To initialize a `git-annex`-repository first you have to initialize a
 `git`-repository. The complete procedure looks as the following shell session
 demonstrates:
 
 ~~~sh
-$ git init 'repositoryname'
-$ cd 'repositoryname'
-$ git annex init 'annex-repository-name'
+    $ git init 'repositoryname'
+    $ cd 'repositoryname'
+    $ git annex init 'annex-repository-name'
 ~~~
 
 The created `git`-repository now may be modified using the usual `git`-commands.
@@ -138,35 +165,63 @@ Adding a remote repository for synchronization can be achieved by running the
 `git remote add <repo-name> <repo-path>` command.
 
 
+### Adding files to a git-annex repository
+
 All data manipulation commands are related to the `git-annex`-command set. A
 complete procedure looks this way:
 
 ~~~sh
-$ git annex add filename.ext
-$ git commit -m 'file added.'
-$ git push # pull
+    $ git annex add filename.ext
+    $ git commit -m 'file added.'
+    $ git push <remotename>
 ~~~
+
+After adding files to a repository the metadata is updated with the ,,connected"
+repositories (remotes) by pulling changes from the wanted remote and pushing
+current changes to the remote. This is the way synchronization is realized when
+using `git` or `git-annex`.
+
+### Automated approach 
 
 Committing files on every change might seem very uncomfortable, because of the
 reason there is a monitoring daemon included in git annex. To automate the
 complete procedure the daemon can be started by running `git annex watch`. Now
-all files added to the directory are committed automatically.
+all files added to the directory are committed automatically. 
 
 
+## Git-annex assistant
 
-* There are different tools like rsync, robocopy, one could write a script to
-  backup stuff.
-* Git annex is a tool that tries to stay comfortable while handling different
-  scenarios of todays infrastructure.
-* Idea why jhess wrote git annex.
+The assistant tool allow `git-annex` to implement a completely automated
+synchronization the way like Dropbox Client similar synchronisation tools work.
+By default only metadata is synchronized. Applying the `--content` option to the
+git annex assistant client will tell `git-annex` to synchronize the content too.
 
+## Git-annex webapp
 
+The webapp of `git-annex` is a part of the `git annex assistant`. It allow the
+configuration and management of repositories and remotes in a user friendly way.
 
-* Usually there is not problem to have different devs like phone, tablet,
-  laptop, desktop... but...data is not always avaiable. One may use dropbox but
-  th ere are issuses with data security and availability.
+# Special Remotes
 
-* Data may be stored locally on usb drive, fileserver or cloud service.
+`Git-annex` extends the `git` repository concept by introducing special remotes.
+These remotes can by used like typical `git`-repositories, `git`-commands
+however cannot be used. Typical special remotes are cloud storage services like
+`Amazon S3` or `Box.com`. For a complete list of currently supported special
+remotes by `git-annex` see, [^specialremotes].
+
+# Encryption
+
+As data my be saved on untrusted cloud storage services by using special
+remotes, `git-annex` support different concepts of encryption to ensure privacy.
+
+## Shared encryption
+
+This is the most simple way to implement encryption when using `git-annex`.
+Using this encryption concept a symmetric key is generated and saved inside your
+repository.
+
+# Git-annex features
+
 * Problem: Broadcast network not always available
 * Dropbox/Box.com? client tools? -> Stored unencrypted? Password problem, data
   deletion problem. Files might be accessed by service providers or others. ->
@@ -183,25 +238,8 @@ Alternatives:
       storage, encryption, os support (windows, mac, linux)
     * git annex does not check content into git
 
-## Git annex essentials
 
-* files saved into .git/annex folder als unique UUID and symlink'ed
-* repositories and remote information saved in .git/config
 
-~~~
-[core]
-	repositoryformatversion = 0
-	filemode = true
-	bare = false
-	logallrefupdates = true
-[annex]
-	uuid = 59a11cf0-0c01-4298-bb94-71c6593caa5b
-	version = 5
-[remote "temp"]
-	url = /tmp/gannex
-	fetch = +refs/heads/*:refs/remotes/temp/*
-	annex-uuid = b6e1928e-af46-4478-88e1-d17882fdc9f7
-~~~
 
 # Git--annex remotes
 
@@ -311,3 +349,6 @@ as remotes.
 [^checksum] http://en.wikipedia.org/wiki/Checksum 
 [^dataencryption] http://en.wikipedia.org/wiki/Encryption
 [^dotgit] http://gitready.com/advanced/2009/03/23/whats-inside-your-git-directory.html 
+[^assistant] Assistant ref
+[^git] http://git-scm.org
+[^specialremotes] http://git-annex.branchable.com/special_remotes/
