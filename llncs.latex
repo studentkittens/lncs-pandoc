@@ -41,6 +41,7 @@ $endif$
 $if(mathfont)$
     \setmathfont(Digits,Latin,Greek){$mathfont$}
 $endif$
+
 \fi
 % use microtype if available
 \IfFileExists{microtype.sty}{\usepackage{microtype}}{}
