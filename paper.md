@@ -145,7 +145,7 @@ purposes. A repository is represented by a unique id (UUID), a typical extended
 `.git/config` file:
 
 
-~~~
+~~~bash
 [core]
 	repositoryformatversion = 0
 	filemode = true
@@ -168,7 +168,7 @@ To initialize a `git-annex`-repository first you have to initialize a
 `git`-repository. The complete procedure looks as the following shell session
 demonstrates:
 
-~~~sh
+~~~bash
     $ git init 'repositoryname'
     $ cd 'repositoryname'
     $ git annex init 'annex-repository-name'
@@ -184,7 +184,7 @@ Adding a remote repository for synchronization can be achieved by running the
 All data manipulation commands are related to the `git-annex`-command set. A
 complete procedure looks this way:
 
-~~~sh
+~~~bash
     $ git annex add filename.ext
     $ git commit -m 'file added.'
 ~~~
@@ -195,7 +195,7 @@ After adding files to a repository the metadata is updated with the ,,connected"
 repositories (remotes) by pulling changes from the wanted remote and pushing
 current changes to the remote. 
 
-~~~sh
+~~~bash
     $ git annex pull <remotename>
     $ git annex push <remotename>
 ~~~
