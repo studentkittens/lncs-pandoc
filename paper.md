@@ -47,7 +47,7 @@ usage.
 
 Many developers are not even fully aware of these difficulties. The software is
 either distributed as binary blob for proprietary software or as source code
-archive for Open Source Software (ref). In the first case the user has only a
+archive for Open Source Software. In the first case the user has only a
 slight chance of getting the software working when he has incompatible
 dependencies. In the latter case the user is able to compile the software
 himself, possibly using the correct, working dependency. But in both cases the
@@ -134,18 +134,20 @@ hello world
 
 ## Technical aspects
 
-![Container example](docker-containers.png)
+![Container example with two containers](docker-containers.png)
 
-The [Container example][Container example] shows the layers used in docker. Two
-containers (Debian and BusyBox) are shown that both run on the same kernel and
-have a different level of versioned commits]
+The [container example](Container example with two containers) (Source:
+@src_docker_overview) below shows the layers used in docker. Two containers
+(Debian and BusyBox) are shown that both run on the same kernel and have a
+different level of versioned commits.
 
 The biggest difference to other commonly used techniques is that all
 applications run on the same operating system, which means on the same kernel,
 but with a different userspace. This allows the sandboxed application to
 directly access the hardware over a thin layer of linux kernel techniques. This
 lies contrast to true hardware virtualization where a whole new kernel is
-started on emulated hardware.
+started on emulated hardware. This is called operating system level
+virtualization @barham2003xen.
 
 This thin layer is ``cgroups``. It allows the grouping of processes and creating
 the already mentioned namespaces for them. Additionally it is possible to
@@ -153,24 +155,25 @@ configure the ressources that a group of processes may use in a fine-grained
 way. All processes in a docker container run in such a process group, therefore
 every container can be configured in the same way.
 
-Since ``docker`` containers are versioned, containers need a way to write their
+Since ``Docker`` containers are versioned, containers need a way to write their
 changes into a staging area, so the original container is not modified until the
 developer decides he wants to commit his staged changes. For this purpose
-``docker`` uses a overlay filesystem. ``Docker`` can use both ``aufs`` or
+``Docker`` uses a overlay filesystem. ``Docker`` can use both ``aufs`` or
 ``btrfs``. ``aufs`` for example provides a read- and writable overlay over a
 normal filesystem which is only readable through ``aufs``. All written changes
 are cached until a synchronization is requested.
 
-![shipyard](shipyard.png)
+![Shipyard screenshot](shipyard.png)
 
-In order to make ``docker`` easily extendible and controllable, the tool is
+In order to make ``Docker`` easily extendible and controllable, the tool is
 split up in a daemon called ``dockerd`` and ``docker clients`` which are usually
-the commandline ``docker`` utility and also each application container.
-This split up also allows a clean language agnostic extension approach since 
-all communication goes over a defined network protocol. Therefore it is easily
+the commandline ``Docker`` utility and also each application container. This
+split up also allows a clean language agnostic extension approach since all
+communication goes over a defined network protocol. Therefore it is easily
 possible  to develop remote control software that is able to list all
-containers, show statistics of them and to start or stop them. The open source 
-webtool ``Shipyard`` ([Example](shipyard)) is an example for such a remote control.
+containers, show statistics of them and to start or stop them. The open source
+webtool ``Shipyard`` ([Example](Shipyard screenshot), Source: @src_shipyard) is
+an example for such a remote control.
 
 # Use cases
 
@@ -231,7 +234,7 @@ DockerHub at https://hub.docker.com is used.
 
 After pushing, the client side can pull the container, provided they have a
 running ``dockerd`` daemon. Pulling involves either downloading the full image
-on the first run (``docker`` does dependency resolution if the base image is not
+on the first run (``Docker`` does dependency resolution if the base image is not
 present yet) or only the difference will be fetched and applied.
 
 ```bash
@@ -316,19 +319,20 @@ wrapper to start and stop a service across a cluster using ``systemd``.
 
 
 As seen in the [fleet architecture overview with two services being
-distributed](CoreOs architecture), two services are distributed (two load
-balancer instances and six api servers that do the actual work). If one of the
-load balancers breaks down another one can be started on another machine by
-``fleet``. Through standard linux daemons like ``avahi``, *CoreOS* instances can
-be discovered on the network, so adding new machines to the cluster is very
-easy. 
+distributed](CoreOs architecture) (Source: @src_coreos_overview), two services
+are distributed (two load balancer instances and six api servers that do the
+actual work). If one of the load balancers breaks down another one can be
+started on another machine by ``fleet``. Through standard Linux daemons like
+``avahi``, *CoreOS* instances can be discovered on the network, so adding new
+machines to the cluster is very easy. 
 
-![etcd overview](container-lifecycle.png)
+![etcd overview with the container registration process](container-lifecycle.png)
 
 Since *CoreOS* needs a way to track which container runs on which machine, a
 global configuration daemon is needed. This daemon is called ``etcd``. As one
-can see in the [etcd overview](etcd overview), new containers automatically get
-registered in the key-value store of ``etcd`` and unregistered once they stop. 
+can see in the [etcd overview with the container registration process](etcd
+overview) (Source: @src_coreos_etcd), new containers automatically get
+registered in the key-value store of ``etcd`` and unregistered once they stop.
 Each machine runs one ``etcd`` instance, which mirror their state all over the
 cluster.
 
@@ -355,14 +359,14 @@ features discussed in the following.
 If a *dockerized* application needs to wait for connections from the outer side 
 they need a port to listen on. By default docker containers can make connections
 to the outside, but the outside world cannot connect to the container. In order
-to make this work, ``docker`` needs to know which port in the container should
+to make this work, ``Docker`` needs to know which port in the container should
 be mapped to a port on the host system. This is problematic in a case where two
 containers want to export the same port to the outside -- which is often the case
 when launching several instances of the same application in different
 containers for e.g. load balancing. 
 
 While it is possible to directly map the container port the host port,
-``docker`` will map a random high port (49153 to 65535) on the host to the port
+``Docker`` will map a random high port (49153 to 65535) on the host to the port
 used inside the container if the ``-P (--publish-all)`` was given. This allows
 running several instances of the same application simultaneously. 
 
@@ -373,6 +377,7 @@ lists currently running containers:
 $ docker ps
 CONTAINER ID IMAGE      COMMAND CREATED    STATUS    PORTS               
 7ee05a7cf76e sahib/arch "bash"  4 days ago Up 2 days 0.0.0.0:49155->5000/tcp
+$ # host port 49155 is mapped to 5000 inside the container.
 ```
 
 ### Volumes
@@ -382,9 +387,9 @@ they can save or read data from. This is a common usecase for database
 application where the database server reads the data and occasionally another
 application generates new data and writes it to the common mount. While it would
 be possible to use a common network share (like ``nfs``), this would be neither
-very efficient nor would be controllable from the ``docker`` utility.
+very efficient nor would be controllable from the ``Docker`` utility.
 
-Therefore ``docker`` offers an easier alternative as so-called *Data Volumes*.
+Therefore ``Docker`` offers an easier alternative as so-called *Data Volumes*.
 Those are simply directories on the host system that get mapped to a directory
 inside of the container on it's startup. In contrast to all other directories
 inside the container those directories can be used to persistently store data
@@ -408,14 +413,14 @@ new_file
 
 As previously mentioned, big application often come in several parts. It would
 be favourable if we could separate those parts in individual containers, but
-somehow tell ``docker`` they're part of something bigger. This is supported by a
+somehow tell ``Docker`` they're part of something bigger. This is supported by a
 feature called *Container linking*.
 
 In order to establish links we need to give containers a name. By default
-``docker`` will name containers by two words that are connected with an
+``Docker`` will name containers by two words that are connected with an
 underscore (e.g. ``silly_lovelace``). Since linking needs a predictable name, one can
 give an explicit name by passing ``--name predictable_name`` to the respective
-``docker`` commands. 
+``Docker`` commands. 
 
 Here is a very short demonstration of the linkage feature:
 
@@ -426,7 +431,6 @@ $ # Start container "two" with "one" as source
 $ # and the link name (everything after :) "link_one"
 $ docker run -i -t --name two --link one:link_one base/arch bash 
 two> ping one
-[root@c47d78d66182 /]# ping one
 PING one (172.17.0.11) 56(84) bytes of data.
 64 bytes from one (172.17.0.11): icmp_seq=8 ttl=64 time=0.081 ms
 [...] 
@@ -443,7 +447,7 @@ ping: unknown host two
 As one can see, after linking the container ``two`` to the container ``one`` by
 using the ``--link source_container:link_alias`` we can reach the source
 container over network, but not the other way round. Each linked container
-can access it's source container by it's hostname. Furthermore ``docker`` sets
+can access it's source container by it's hostname. Furthermore ``Docker`` sets
 up some environment variables that tells us in a programmatic way the exact
 address data of the source container.
 
@@ -463,7 +467,7 @@ to look at it from a higher perspective and name some general advantages:
   Other platforms currently still use *true* hardware virtualization to run a
   linux container or will need to use it when the host kernel is not compatible
   (e.g. when running a Linux container on Windows or vice versa). 
-  This is the main reason why ``docker`` is not an competitor to tools like
+  This is the main reason why ``Docker`` is not an competitor to tools like
   *VirtualBox* or *VMWare*, rather an alternative or extension. 
 - *Lightweight*: In the normal usecase containers start in under a second and
   are able to directly access the underlying hardware without serious
@@ -480,16 +484,16 @@ to look at it from a higher perspective and name some general advantages:
   on Linux or elsewhere.
 
 Other alternatives like ``packer`` @packer or ``vagrant`` @vagrant [^vagrant]
-can be used together with ``docker`` in scenarios where hardware virtualization
+can be used together with ``Docker`` in scenarios where hardware virtualization
 is requested (for security reasons or to be compatible with existing load
 balancing software) but also easy deployment option are needed.
 
 [^vagrant]: Both tools are wrappers around popular hardware virtualization
-techniques, offering a similar interface to ``docker``.
+techniques, offering a similar interface to ``Docker``.
 
 ## Criticism
 
-There are some points that are criticized about the approach ``docker`` is
+There are some points that are criticized about the approach ``Docker`` is
 taking. The points listed here may or may not apply to a particular usecase, but
 are at least worth a mention. 
 
@@ -512,10 +516,10 @@ are at least worth a mention.
 
 ## Summary
 
-While ``docker`` is not a new technology by any means (operating system level
+While ``Docker`` is not a new technology by any means (operating system level
 virtualization dates back to the last millenium @goldberg1981hardware) it is a
 welcome renaissance of this old deployment technique. In contrast to it's
-competitors, ``docker`` makes it painless to create working containers and
+competitors, ``Docker`` makes it painless to create working containers and
 *ship* them to the client side. Future development might improve the current
 portability issues and might deliver integration in other products. The
 development started in 2013 and still new features come in a weekly rate. 
@@ -523,7 +527,7 @@ development started in 2013 and still new features come in a weekly rate.
 It should be noted that none of this is really new, since there many competing
 operating system level virtualization techniques exist already like *LXC*, plain
 *chroot* or *FreeBSD jails*. But none of them are as portable and easy to use as
-``docker``. Therefore, ``docker`` tries to be a standard that developers and
+``Docker``. Therefore, ``Docker`` tries to be a standard that developers and
 users can agree on and less a new technique.
 
 \newpage
