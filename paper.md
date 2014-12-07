@@ -1,6 +1,6 @@
 ---
 documentclass: llncs
-title: Filemanagement using git--annex
+title: Filemanagement using git-annex
 author: Christoph Piechula
 institute: Hochschule Augsburg - University of Applied Sciences
 email: "christoph.piechula@hs-augsburg.de"
@@ -12,10 +12,10 @@ abstract: |
         often gets backup to a local hard drive, to ensure access if the cloud
         service stops working. It is often hard for the user to implement
         a useful backup strategy and to track data saved in the cloud or local
-        hard drive. A tool named git--annex is a possible solution to this
+        hard drive. A tool named git-annex is a possible solution to this
         problem. It also addresses other usual issues with  cloud security and
-        data integrity in general. This paper intends to give a git--annex
-        introduction by explaining the concepts behind git--annex and 
+        data integrity in general. This paper intends to give a git-annex
+        introduction by explaining the concepts behind git-annex and 
         demonstrating different use case scenarios and features of git-annex.
 ---
 
@@ -62,23 +62,23 @@ To keep the data secured and avoid unauthorized access encryption a proven
 standard encryption should be used [^dataencryption]. 
 
 To implement above backup strategy usually different tools are needed. Another
-concept that also intends to deal with the issues above is `git--annex`. It is a
+concept that also intends to deal with the issues above is `git-annex`. It is a
 tool for file synchronisation and archival purposes. This paper aims to give a
-introduction to the `git--annex` basics and its core features.
+introduction to the `git-annex` basics and its core features.
 
 
 
-# Git--annex overview
+# Git-annex overview
 
 ## Project details
 
-The tool named `git--annex` is a tool that aims to synchronize one's data while
+The tool named `git-annex` is a tool that aims to synchronize one's data while
 addressing all the issues that automatically come with cloud storage services
 and hardware.
 
-`Git--annex` was started as a crowd funding project by Joey Hess, former Debian
+`Git-annex` was started as a crowd funding project by Joey Hess, former Debian
 GNU/Linux developer. Targeting the project at \$3.000 it reached over \$20.000
-within a few hours. `Git--annex` is written in Haskell, a functional programming
+within a few hours. `Git-annex` is written in Haskell, a functional programming
 language. It has been written in Haskell and not as a *script*-tool as Joey Hess
 wanted to provider a decent and stable tool with a decent test suite.
 
@@ -90,29 +90,30 @@ changes. This allows the developer to ,,rollback" the source code state to a
 previous version. Doing this with big binary data the repository becomes very
 large.
 
-`Git--annex` addresses this problem by only managing the files meta data within
+`Git-annex` addresses this problem by only managing the files meta data within
 git. While this might seem paradoxical for the first moment, is has a lot of
 advantages to do so with files which cannot be handled with git by itself.
-Primary `git--annex` is developed as a command line tool. In the meantime there
+Primary `git-annex` is developed as a command line tool. In the meantime there
 is also a fancy web-based GUI that allows the non-technical user to use
-`git--annex` for file synchronization in a comfortable way like using e.g. the
+`git-annex` for file synchronization in a comfortable way like using e.g. the
 Dropbox--Client.
+
+# How it works
 
 ## Distributed file synchronisation concept
 
     * pics
 
-## Alternatives
+**Alternatives**: There are also some other tools like e. g. git-media,
+git-bigfiles or git-fat which extend the capabilities of `git`. Besides those
+tools extend the `git` concept of using git in conjunction with big files, the
+follow different approaches to solve different project. The `git-annex` concept
+is in its way unique, as the other projects itself. For more details see
+[^gitfat], [^gitbigfiles], [gitmedia] and *what git-annex is not*
+[^gitannexisnot].
 
-Alternatives:
 
-    * git media -> only manual sync
-    * tool for distributed usage needed -> different online and offline
-      storage, encryption, os support (windows, mac, linux)
-    * git annex does not check content into git
-
-
-## Git annex essentials
+## Git annex internals
 
 The `git-annex` concept is based on usual `git` repositories. Meta data is
 synchronized between repositories. A repositories is the place where a copy of
@@ -126,12 +127,19 @@ about the repository like, available remotes, user identity and so on. For a
 complete list see [^dotgit]. `Git-annex` extends this folder structure by adding
 a `annex` folder to it. In this location `git-annex` related information is hold.
 
+## Backends
+
 When adding a file to `git-annex`, the file gets moved to the
 `.git/annex/objects/`-folder and a symbolic link to the data is created by
 default. This is a `git-annex` feature to avoid unwanted manipulation of the
 data. The filename itself is renamed in a way which name represents the
-cryptographic hash sum of the data itself. In this way the data might be
-validated by `git-annex`. This behavior is called `git annex indirect`-mode.
+cryptographic hash sum of the data itself. The files are stored in a key-value
+manner according in the so called *backend*. In this way e.g. the data's
+integrity might be validated by `git-annex fsck`. For a complete list with
+supported backends see [^backends]. The ,,symbolic link"-behavior is called `git
+annex indirect`-mode.
+
+## Direct mode
 
 As the symbolic link approach is not always a wanted behavior, there is also the
 `git annex direct` mode. This mode is also used when symbolic links are not
@@ -160,13 +168,18 @@ purposes. A repository is represented by a unique id (UUID), a typical extended
 	annex-uuid = b6e1928e-af46-4478-88e1-d17882fdc9f7
 ~~~
 
+#Introduction to git annex usage
+
+As `git-annex` is primary a command line tool, it might be more suitable for
+power users. But meantime there is also a fancy GUI-based tool called `git annex
+webapp`. It is a part of the `git annex assistant`. This chapter gives a short
+introduction to the way `git-annex` can be used.
+
 ## Commandline usage 
 
-### Creating a git-annex repository
-
-To initialize a `git-annex`-repository first you have to initialize a
-`git`-repository. The complete procedure looks as the following shell session
-demonstrates:
+**Creating a git-annex repository**: To initialize a `git-annex`-repository first
+you have to initialize a `git`-repository. The complete procedure looks as the
+following shell session demonstrates:
 
 ~~~bash
     $ git init 'repositoryname'
@@ -179,21 +192,17 @@ Adding a remote repository for synchronization can be achieved by running the
 `git remote add <repo-name> <repo-path>` command.
 
 
-### Adding files to a git-annex repository
-
-All data manipulation commands are related to the `git-annex`-command set. A
-complete procedure looks this way:
+**Adding files to a git-annex repository:** All data manipulation commands are
+related to the `git-annex`-command set. A complete procedure looks this way:
 
 ~~~bash
     $ git annex add filename.ext
     $ git commit -m 'file added.'
 ~~~
 
-### Synchronizing repository with remotes
-
-After adding files to a repository the metadata is updated with the ,,connected"
-repositories (remotes) by pulling changes from the wanted remote and pushing
-current changes to the remote. 
+**Synchronizing repository with remotes:** After adding files to a repository
+the metadata is updated with the ,,connected" repositories (remotes) by pulling
+changes from the wanted remote and pushing current changes to the remote. 
 
 ~~~bash
     $ git annex pull <remotename>
@@ -207,15 +216,14 @@ reason there is a monitoring daemon included in `git annex`. To automate the
 complete procedure the daemon can be started by running `git annex watch`. Now
 all files added to the directory are committed automatically. 
 
-
-### Git-annex assistant
+## Git-annex assistant
 
 The assistant tool allow `git-annex` to implement a completely automated
 synchronization the way like Dropbox Client similar synchronisation tools work.
 By default only metadata is synchronized. Applying the `--content` option to the
 git annex assistant client will tell `git-annex` to synchronize the content too.
 
-### Git-annex webapp
+## Git-annex webapp
 
 The webapp of `git-annex` is a part of the `git annex assistant`. It allow the
 configuration and management of repositories and remotes in a user friendly way.
@@ -234,8 +242,7 @@ typically in the *transfer group*. `Repository groups` can be controlled by
 using `git annex vicfg`. For a complete list of `repository groups` see
 [^repositorygroups].
 
-
-## Remotes
+## Special Remotes
 
 `Git-annex` extends the `git` repository concept by introducing `special
 remotes`. These remotes can by used like typical `git`-repositories,
@@ -250,9 +257,11 @@ information see [^ownremotes].
 
 ## Encryption
 
-As data may be saved on untrusted cloud storage services by using `special
-remotes`, `git-annex` support three different encryption concepts of encryption
-to ensure privacy.
+By default the data saved in a repository is not encrypted, everyone who has
+access to the repository whether it is a `git` repository or a `special remote`
+sees the saved content. As data may be saved on untrusted cloud storage services
+by using `special remotes`, `git-annex` support three different encryption
+concepts of encryption to ensure privacy.
 
 **Shared encryption** is the most simple way to implement encryption when using `git-annex`.
 Using this encryption concept a *symmetric key* is generated and saved inside
@@ -269,12 +278,8 @@ different user without sharing a common passphrase.
 **Public key encryption** is the third method that may by used to encrypt your
 data. For details about *public key encryption* see, [^pgp].
 
-## Repository trustiness levels
-
-`Git-annex` supports different levels of *trustness*. By default repositories are
-*semitrusted*. If a repository is *semitrusted* `git-annex` checks if the
-minimum needed number of file copies is present when a file is dropped by the
-user.
+When data is saved in a `git`-repository there is also the possibility to
+encrypt the `git`-repository using ggcrypt [^gcrypt].
 
 ## Communication
 
@@ -287,51 +292,73 @@ There is also a local UDP based paring mechanism for the local network, this
 mechanism is used by the `git annex webapp` as it needs user interaction
 exchange a secrect key to pair repositories with each other.
 
-## Prefered content
+## Misc features
 
-This option gives the user the ability to configure which content to be
+**Preferred content:** This option gives the user the ability to configure which content to be
 managed within a repository by *including* or *excluding* different filetypes.
 
-# Security
+**Minimum number of copies:** `Git-annex` can be configured to *backup* your
+files by always ensuring that a *minimum* number of copies is preserved.
+This can be done via command line by running:
 
-* git annex does not trust semitrusted repos -> check is always done
-* num of copies -> semitrusted repositories
-* symlinks
-* repository trust
-* encryption
-* lost repos cannot be deleted but marked as dead -> does not count into
-  number of copies anymore
-* trusted repos assumed to be save -> not checked
+~~~bash
+    $ git annex numcopies 2
+~~~
 
-## Encryption
+There is also the possibility to set this option by creating a hidden
+`.gitattributes` file inside the `git-annex`-repository. The following example
+tells `git-annex` to preserve three copies of *mp3*-files:
 
-* restrict access or encrypt to obtain security
-* GPG does encryption
-* usually no encryption, everyone sees content that can access repository
-* hybrid (recommended), adding keys later is possible, not possible to block person 
-* share encryption key
-* regular public key encryption and MAC
-* none
-* encrlypt remote git repositories with gcrypt
+~~~bash 
+    $ echo "*.mp3 annex.numcopies=3" >> .gitattributes
+~~~
 
-## Additional features
+**Trustiness levels:** `Git-annex` supports different levels of *trustness*. By
+default repositories are set as *semitrusted*. If a repository is *semitrusted*
+`git-annex` checks if the minimum needed number of file copies is present when a
+file is dropped by the user. Trusted repositories are assumed to be save and
+therefor no check is done.
 
-* data integrity -> fsck -> verifies checksum (sha1) -> corrupted data goes to .git/annex/bad
-* git annex watch
-* assistant, simplifies usage 
-* webapp, simplifies usage
-* whereis -> location tracking
+**Data integrity:** As by default files are managed in a key-value backend
+manner using a cryptographic hash sum there is also the possibility to validate
+the data integrity by calculating the hash sum. This can be done by running the
+`git annex fsck [<filename>]` command.
 
-## Misc
+**Collition handling:** `Git-annex` also implements collision handling by adding
+a suffix to a file which would collide with another file that has the same name.
 
-* Collision handling
-* Test-Suite
-* end to end encryption for cloud services
-* videos and good introduction
+**Location tracking:** Another useful feature which makes `git-annex` a pleasure
+to use is *location tracking*. `Git-annex` by itself is able to tell you where
+your files are stored. By running
+
+~~~bash
+    $ git annex whereis            
+    whereis 01.jpg (2 copies) 
+        32bef0e7-1e0f-478f-8b33-1718daa67502 -- [usbdrive]
+        a1c3bc37-4c78-420b-a83f-9504c195b8e7 -- [box.com]
+    ok
+    whereis evidence.png (3 copies) 
+        32bef0e7-1e0f-478f-8b33-1718daa67502 -- [usbdrive]
+        a1c3bc37-4c78-420b-a83f-9504c195b8e7 -- [box.com]
+        ac61251d-fb87-467e-9852-1a61cf414bcb -- athome [here]
+~~~
+
+`git-annex` tells you, where your files are stored and how much copies are
+present across all repositories.
+
+**Testsuite:** `Git-annex` was not developed as a script as the developer
+wanted to have a full featured and stable testing environment. `Git-annex`
+implements a `git annex test` command to run all available test cases for
+`git-annex`. There is also a `git annex testremote` which makes it possible to
+test a remote repository. When running this command a lot of `git-annex`
+commands are run to verify that the `git-annex`-repository is working correctly.
+This is also a nice feature to test a self implemented `special remote`-module.
 
 ## Conclusion
 
-* nice tool
+`Git annex` is by no means not only a tool for *unix hackers* and power users.
+There has also been a lot of development done yet to make `git-annex` more user
+friendly. 
 
 
 # References
@@ -353,3 +380,7 @@ managed within a repository by *including* or *excluding* different filetypes.
 [^rsync] http://en.wikipedia.org/rsync
 [^ownremotes] http://en.wikipedia.org/rsync
 [^pgp] http://en.wikipedia.org/pgp
+[^gitfat] https://github.com/jedbrown/git-fat
+[^gitmedia] https://github.com/alebedev/git-media
+[^gitbigfiles] http://caca.zoy.org/wiki/git-bigfiles
+[^gcrypt] https://github.com/bluss/git-remote-gcrypt
