@@ -1,6 +1,6 @@
 ---
 documentclass: llncs
-title: Filemanagement using git-annex
+title: Distributed filemanagement using git-annex
 author: Christoph Piechula
 institute: Hochschule Augsburg - University of Applied Sciences
 email: "christoph.piechula@hs-augsburg.de"
@@ -32,20 +32,20 @@ tool is needed. Cloud storage services are also often used as backup location
 for private or commercial data. As devices are not inevitably connected directly
 with each other, a cloud storage service is used as a intermediary. Widely used
 cloud storage service providers are Dropbox, Box.com, Google Drive, Apple iCloud
-and Microsoft OneDrive [^storageproviders].
+and Microsoft OneDrive @storageproviders.
 
 There are known issues with cloud storage services which may cause data loss
-[^dataloss] or unauthorized access [^unauthorizedaccess] to private data. Your
+@dbsync or unauthorized access @dbpass to private data. Your
 data also might be unaccessible when a provider gets taken down by the FBI
-because of piracy allegations [^piracy]. Another point is that the user doesn't
+because of piracy allegations @piracy. Another point is that the user doesn't
 know if his private or commercial data gets encrypted properly. Also there might
-be a privacy issues because of PRISM [^prism]. Usually there is always the
+be a privacy issues because of PRISM @prism. Usually there is always the
 problem with most of the cloud storage services provides that used tools and
 methods are not transparent.
 
 To keep data nevertheless accessible and secure backups and the use of
 encryption is advisable. When backing up data, one should always bear in mind
-that hardware is also very error prone [^ramhdd], [^bitrot].
+that hardware is also very error prone @ramhdd, @bitrot.
 
 To sum up, just doing a backup is not enough to keep data safe and secured. It
 is also necessary to check the data's integrity (checking if data is
@@ -55,11 +55,11 @@ integrity of data) is needed.
 There are numerous ways check or ensure data integrity. One possibility would be
 to use filesystems like `ZFS` or `BTRFS` which by itself ensure that your data
 doesn't get corrupted. These filesystems have the ability to detect and avoid
-avoid data corruption [^dataintegrity]. Another possibility to identify data
-corruption is by checksumming [^checksum] the data. 
+avoid data corruption @dataintegrity. Another possibility to identify data
+corruption is by checksumming @checksum the data. 
 
 To keep the data secured and avoid unauthorized access encryption a proven
-standard encryption should be used [^dataencryption]. 
+standard encryption should be used @cryptography. 
 
 To implement above backup strategy usually different tools are needed. Another
 concept that also intends to deal with the issues above is `git-annex`. It is a
@@ -83,7 +83,8 @@ language. It has been written in Haskell and not as a *script*-tool as Joey Hess
 wanted to provider a decent and stable tool with a decent test suite.
 
 Git annex is a free software tool (free and open source) on top of git. Git is a
-``distributed`` version control used by developers to mange source code.
+``distributed`` version control used by developers to mange source code, see
+@progit.
 However, git is not suitable for big binary data as it is calculating
 differences for all file changes and storing the complete history of a file that
 changes. This allows the developer to ,,rollback" the source code state to a
@@ -109,9 +110,8 @@ git-bigfiles or git-fat which extend the capabilities of `git`. Besides those
 tools extend the `git` concept of using git in conjunction with big files, the
 follow different approaches to solve different project. The `git-annex` concept
 is in its way unique, as the other projects itself. For more details see
-[^gitfat], [^gitbigfiles], [gitmedia] and *what git-annex is not*
-[^gitannexisnot].
-
+@gitfat, @gitbigfiles, @gitmedia and *what git-annex is not*
+@gitannexisnot.
 
 
 ## Git annex internals
@@ -121,14 +121,12 @@ synchronized between repositories. A repositories is the place where a copy of
 your meta data is stored. As `git` works in a distributed way, `git-annex` is
 able to share files across different repositories also in a distributed way,
 compared to the usual way using cloud storage provider, where usually a
-centralized approach is used. For more information about `git` see, [^git].
+centralized approach is used. For more information about `git` see, @progit.
 
 A `git`-repository is containing a `.git`-folder which contains information
 about the repository like, available remotes, user identity and so on. For a
-complete list see [^dotgit]. `Git-annex` extends this folder structure by adding
+complete list see @dotgit. `Git-annex` extends this folder structure by adding
 a `annex` folder to it. In this location `git-annex` related information is hold.
-
-## Backends
 
 When adding a file to `git-annex`, the file gets moved to the
 `.git/annex/objects/`-folder and a symbolic link to the data is created by
@@ -137,16 +135,14 @@ data. The filename itself is renamed in a way which name represents the
 cryptographic hash sum of the data itself. The files are stored in a key-value
 manner according in the so called *backend*. In this way e.g. the data's
 integrity might be validated by `git-annex fsck`. For a complete list with
-supported backends see [^backends]. The ,,symbolic link"-behavior is called `git
+supported backends see @backends. The ,,symbolic link"-behavior is called `git
 annex indirect`-mode.
-
-## Direct mode
 
 As the symbolic link approach is not always a wanted behavior, there is also the
 `git annex direct` mode. This mode is also used when symbolic links are not
 supported by the filesystem, this is the case when using a filesystem like the
 fat-filesystem. The `direct` mode is also used by the `git annex assistant`,
-see[^assistant].
+see [assistant](#assistant).
 
 The repository and remote configuration itself is saved inside the `.git/config`
 file. This file is provided by `git` and extended by `git-annex` for its
@@ -169,10 +165,11 @@ purposes. A repository is represented by a unique id (UUID), a typical extended
 	annex-uuid = b6e1928e-af46-4478-88e1-d17882fdc9f7
 ~~~
 
+
 #Introduction to git annex usage
 
-As `git-annex` is primary a command line tool, it might be more suitable for
-power users. But meantime there is also a fancy GUI-based tool called `git annex
+As `git-annex` is primary a command line tool developed by developers for power
+users. But in meantime there is also a fancy GUI-based tool called `git annex
 webapp`. It is a part of the `git annex assistant`. This chapter gives a short
 introduction to the way `git-annex` can be used.
 
@@ -217,7 +214,7 @@ reason there is a monitoring daemon included in `git annex`. To automate the
 complete procedure the daemon can be started by running `git annex watch`. Now
 all files added to the directory are committed automatically. 
 
-## Git-annex assistant
+## Git-annex assistant {#assistant}
 
 The assistant tool allow `git-annex` to implement a completely automated
 synchronization the way like Dropbox Client similar synchronisation tools work.
@@ -230,12 +227,15 @@ The webapp of `git-annex` is a part of the `git annex assistant`. It allow the
 configuration and management of repositories and remotes in a user friendly way.
 
 
-![la lune](img/gitannexassistant.png "Voyage to the moon")
+![iw](img/gitannexassistant.png "Voyage to the moon")
 
-Figure {#la-lune} shows the `git annex webapp`. Using the webapp the user has
+Figure [figure](#iw) shows the `git annex webapp`. Using the webapp the user has
 the possibility to setup `git-annex` repositories completely command line free.
 It is also possible to configure `special remotes` and use features like
-file encryption. The webapp GUI has also a interactive pairing feature for
+file encryption. The purpose is also to provider a ,,Dropbox like" user
+experience.
+
+The webapp GUI has also a interactive pairing feature for
 clients in the local network. Besides this feature stuff like periodical file
 integrity check or *XMPP*-account for file sharing (synchronisation) with
 friends or not directly connected devices is possible. Also there is a log file
@@ -261,12 +261,12 @@ using `git annex vicfg`. For a complete list of `repository groups` see
 remotes`. These remotes can by used like typical `git`-repositories,
 `git`-commands however cannot be used. Typical special remotes are cloud storage
 services like `Amazon S3` or `Box.com`. For a complete list of currently
-supported special remotes by `git-annex` see, [^specialremotes]. Usually there
+supported special remotes by `git-annex` see, @specialremotes. Usually there
 are three *types* of remotes, `special remotes`, `archive remotes` and `local
 remotes` like USB drives. As `git-annex` follows a modular approach, there is
 the possibility to *connect* `git-annex` to yet unsupported `special remotes` by
 writing a extension. This can be done in three different ways. For more
-information see [^ownremotes].
+information see @ownremotes.
 
 ## Encryption
 
@@ -284,15 +284,18 @@ saved on a `special remote`.
 
 **Hybrid encryption** is the *recommended* way to encrypt when synchronizing
 data with untrusted `special remotes`. When using *hybrid encryption*, the
-symmetric encryption key is additionally encrypted with a *pgp* public key of a
-user. This approach allows `git-annex` to use share a encrypted repository with
+symmetric encryption key is additionally encrypted with a *gpg* [^gpg] public
+key of a user, for more information see public-key cryptography @cryptography.
+This approach allows `git-annex` to use share a encrypted repository with
 different user without sharing a common passphrase. 
 
 **Public key encryption** is the third method that may by used to encrypt your
-data. For details about *public key encryption* see, [^pgp].
+data. For details about *public key encryption* see, @cryptography.
 
 When data is saved in a `git`-repository there is also the possibility to
-encrypt the `git`-repository using ggcrypt [^gcrypt].
+encrypt the `git`-repository using gcrypt [^gcrypt].
+
+[^gcrypt] Encryption tool for git repositories, https://github.com/bluss/git-remote-gcrypt
 
 ## Communication
 
@@ -303,7 +306,7 @@ connection is not possible, e.g. because of firewall restrictions.
 
 There is also a local UDP based paring mechanism for the local network, this
 mechanism is used by the `git annex webapp` as it needs user interaction
-exchange a secrect key to pair repositories with each other.
+exchange a secret key to pair repositories with each other.
 
 ## Misc features
 
@@ -367,33 +370,13 @@ test a remote repository. When running this command a lot of `git-annex`
 commands are run to verify that the `git-annex`-repository is working correctly.
 This is also a nice feature to test a self implemented `special remote`-module.
 
-## Conclusion
+## Conclusion 
 
 `Git annex` is by no means not only a tool for *unix hackers* and power users.
 There has also been a lot of development done yet to make `git-annex` more user
-friendly. 
-
+friendly.  
 
 # References
 
-[^dataloss]: http://www.zdnet.com/dropbox-sync-glitch-results-in-lost-data-for-some-subscribers-7000034610/ 
-[^unauthorizedaccess]: http://www.cnet.com/news/dropbox-confirms-security-glitch-no-password-required/ 
-[^storageproviders] http://www.tomshardware.com/reviews/cloud-storage-provider-comparison,3905.html
-[^piracy] http://techcrunch.com/2012/01/19/megaupload-taken-down-on-piracy-allegations/
-[^prism] http://www.cnet.com/news/what-is-the-nsas-prism-program-faq/
-[^ramhdd] https://blog.codecentric.de/en/2013/11/hardware-will-fail-just-way-expect/ 
-[^bitrot] http://en.wikipedia.org/wiki/Data_degradation 
-[^dataintegrity] http://en.wikipedia.org/wiki/Data_integrity 
-[^checksum] http://en.wikipedia.org/wiki/Checksum 
-[^dataencryption] http://en.wikipedia.org/wiki/Encryption
-[^dotgit] http://gitready.com/advanced/2009/03/23/whats-inside-your-git-directory.html 
-[^assistant] Assistant ref
-[^git] http://git-scm.org
-[^specialremotes] http://git-annex.branchable.com/special_remotes/
-[^rsync] http://en.wikipedia.org/rsync
-[^ownremotes] http://en.wikipedia.org/rsync
-[^pgp] http://en.wikipedia.org/pgp
-[^gitfat] https://github.com/jedbrown/git-fat
-[^gitmedia] https://github.com/alebedev/git-media
-[^gitbigfiles] http://caca.zoy.org/wiki/git-bigfiles
-[^gcrypt] https://github.com/bluss/git-remote-gcrypt
+[^rsync] A widely-used copy tool, http://en.wikipedia.org/rsync
+[^pgp] GNU Privacy Guard, a free tool that implements public key cryptography
