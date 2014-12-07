@@ -102,7 +102,7 @@ Dropbox--Client.
 
 ## Distributed file synchronisation concept
 
-    * pics
+![On the left there is the typical synchronization scenario involving a cloud storage service. On the right you see a typical distributed git-annex synchronization setup.](img/gitcentralized.png)
 
 **Alternatives**: There are also some other tools like e. g. git-media,
 git-bigfiles or git-fat which extend the capabilities of `git`. Besides those
@@ -111,6 +111,7 @@ follow different approaches to solve different project. The `git-annex` concept
 is in its way unique, as the other projects itself. For more details see
 [^gitfat], [^gitbigfiles], [gitmedia] and *what git-annex is not*
 [^gitannexisnot].
+
 
 
 ## Git annex internals
@@ -227,6 +228,18 @@ git annex assistant client will tell `git-annex` to synchronize the content too.
 
 The webapp of `git-annex` is a part of the `git annex assistant`. It allow the
 configuration and management of repositories and remotes in a user friendly way.
+
+
+![la lune](img/gitannexassistant.png "Voyage to the moon")
+
+Figure {#la-lune} shows the `git annex webapp`. Using the webapp the user has
+the possibility to setup `git-annex` repositories completely command line free.
+It is also possible to configure `special remotes` and use features like
+file encryption. The webapp GUI has also a interactive pairing feature for
+clients in the local network. Besides this feature stuff like periodical file
+integrity check or *XMPP*-account for file sharing (synchronisation) with
+friends or not directly connected devices is possible. Also there is a log file
+and the option to restart or shutdown the git annex daemon.
 
 # Git-annex features
 
