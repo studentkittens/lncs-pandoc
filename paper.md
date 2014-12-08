@@ -4,18 +4,20 @@ title: Distributed filemanagement using git-annex
 author: Christoph Piechula
 institute: Hochschule Augsburg - University of Applied Sciences
 email: "christoph.piechula@hs-augsburg.de"
-keywords: git, file management, remote, backup, storage, encryption, annex
+keywords: git, annex, distributed filemanagement, repository, remote, backup, storage, encryption
 abstract: | 
 
         Today cloud storage services are all over the place. There is dropbox,
-        google cloud, box.com and many other services. Important files also
+        box.com, google cloud and many other services. Important files also
         often gets backup to a local hard drive, to ensure access if the cloud
-        service stops working. It is often hard for the user to implement
-        a useful backup strategy and to track data saved in the cloud or local
-        hard drive. A tool named git-annex is a possible solution to this
-        problem. It also addresses other usual issues with  cloud security and
-        data integrity in general. This paper intends to give a git-annex
-        introduction by explaining the concepts behind git-annex and 
+        service stops working. It is often hard for the user to keep track of
+        changes and updating backups. Data often gets just saved to untrusted
+        cloud storage services and users often even don't know about possible
+        issues or that there is the possibility to encrypt senible personal
+        data. A tool named git-annex is a possible solution to this problem. It
+        also addresses other usual issues with  cloud security and data
+        integrity in general. This paper intends to give a git-annex
+        introduction by explaining the concepts behind git-annex and
         demonstrating different use case scenarios and features of git-annex.
 ---
 
