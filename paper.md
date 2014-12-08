@@ -8,17 +8,17 @@ keywords: git, annex, distributed filemanagement, repository, remote, backup, st
 abstract: | 
 
         Today cloud storage services are all over the place. There is dropbox,
-        box.com, google cloud and many other services. Important files also
-        often gets backup to a local hard drive, to ensure access if the cloud
-        service stops working. It is often hard for the user to keep track of
-        changes and updating backups. Data often gets just saved to untrusted
-        cloud storage services and users often even dont know about possible
-        issues or that there is the possibility to encrypt senible personal
-        data. A tool named git-annex is a possible solution to this problem. It
-        also addresses other usual issues with  cloud security and data
-        integrity in general. This paper intends to give a git-annex
-        introduction by explaining the concepts behind git-annex and
-        demonstrating different use case scenarios and features of git-annex.
+        box.com, google cloud and many other storage services. Important files
+        also often gets backup to a local hard drive or network attached device,
+        to ensure access if network connection is not available. It is often
+        hard for the user to keep track of changes and update backups. Sensible
+        personal data also often gets just saved to untrusted cloud storage
+        services and users often dont even know about possible issues or that
+        there is the possibility to encrypt data. A tool named git-annex is a
+        possible solution to this problem. It also addresses other issues with
+        cloud security and data integrity in general. This paper intends to give
+        a overview about git-annex in general. It also intends to demonstrate
+        the command line usage and explaining git-annex concepts and features.
 ---
 
 
