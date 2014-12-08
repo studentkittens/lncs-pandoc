@@ -45,7 +45,6 @@
 \def\ds@francais{\def\switcht@@therlang{\switcht@francais}}
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
-
 \ProcessOptions
 
 \LoadClass[twoside]{article}
