@@ -12,7 +12,7 @@ abstract: |
         often gets backup to a local hard drive, to ensure access if the cloud
         service stops working. It is often hard for the user to keep track of
         changes and updating backups. Data often gets just saved to untrusted
-        cloud storage services and users often even don't know about possible
+        cloud storage services and users often even dont know about possible
         issues or that there is the possibility to encrypt senible personal
         data. A tool named git-annex is a possible solution to this problem. It
         also addresses other usual issues with  cloud security and data
@@ -99,6 +99,9 @@ Primary `git-annex` is developed as a command line tool. In the meantime there
 is also a fancy web-based GUI that allows the non-technical user to use
 `git-annex` for file synchronization in a comfortable way like using e.g. the
 Dropbox--Client.
+
+The `git annex`-tool is available for all major operating systems like *linux*,
+*bsd family*, *mac os*, *android* and *windows*. 
 
 # How it works
 
@@ -203,11 +206,11 @@ purposes. A repository is represented by a unique id (UUID), a typical extended
 
 As `git-annex` is primary a command line tool developed by developers for power
 users. But in meantime there is also a fancy GUI-based tool called [git annex
-webapp](#webapp). It is a part of the [git annex assistant](#assistant). This chapter
-gives a short introduction to the way `git-annex` can be used. Basic usage
-commands are demonstrated only. For a complete list of command and possibilities
-of `git-annex` see the manpage or type `git annex` inside the repository to get
-a list of all possible commands.
+webapp](#webapp). It is a part of the [git annex assistant](#assistant). This
+chapter gives a short introduction to the way `git-annex` can be used. Basic
+usage commands are demonstrated only. For a complete list of command and
+possibilities of `git-annex` see the manpage (`man git annex`) or type `git
+annex` inside the repository to get a list of all possible commands.
 
 ## Commandline usage 
 
@@ -439,18 +442,24 @@ This is also a nice feature to test a self implemented `special remote`-module.
 
 ## Conclusion 
 
-`Git annex` is by no means not only a tool for *unix hackers* and power users.
+`Git annex` is by no means not only a tool for *unix hackers* and *power users*.
 There has also been a lot of development done yet to make `git-annex` more user
-friendly. If summed up the `git annex` command line utility implements over 70
-different commands grouped in the command subcategories ,,commonly used",
-,,repository setup", ,,repository maintenance",  ,,query", ,,metadata",
-,,utility", ,,plumbing" and ,,testing". The `git-annex` command line utility is
-very mighty and well structured. It is not only suitable for manual usage but
-also vor complex scripting task using the *JSON* interface. With great power
-comes great responsibility - so the `git-annex` command line utility is
-definitely not a tool for a command line or unix newcomer. But for this user
-group there is the `git annex webapp`-GUI which make using `git-annex` a
-pleasure.
+friendly by introducing the [git annex webapp](#webapp).
+
+If summed up the `git annex` command line utility implements over 70 different
+commands grouped in command subcategories like ,,commonly used", ,,repository
+setup", ,,repository maintenance",  ,,query", ,,metadata", ,,utility",
+,,plumbing" and ,,testing". The `git-annex` command line utility is very mighty
+and well structured. It is not only suitable for manual usage but also for
+complex scripting tasks by using the *JSON* interface. With great power comes
+great responsibility - so the `git-annex` command line utility is definitely not
+a tool for a command line or unix newcomer. But for this user group there is the
+webapp with a user friendly graphical interface, which make using `git-annex` as
+easy as other comparable cloud storage service tools. Another good thing is that
+all major operating systems are supported. 
+
+There are also some downsides. `Git-annex` is still under heavy development and
+the mighty command line tool is a high barrier for newcomers. 
 
 # References
 
