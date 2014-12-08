@@ -67,7 +67,6 @@ tool for file synchronisation and archival purposes. This paper aims to give a
 introduction to the `git-annex` basics and its core features.
 
 
-
 # Git-annex overview
 
 ## Project details
@@ -103,6 +102,17 @@ Dropbox--Client.
 
 ## Distributed file synchronisation concept
 
+The `git-annex` synchronisation concept differs from the usual centralized
+synchronisation concept in many ways. The ,,old-fashioned" concept usually
+synchronized one or more devices to a cloud service, often there is only a peer
+(device) to peer (cloud) synchronization possible. Additionally there also might
+be a local backup if the user takes care of important data.
+
+To get a idea how a `git-annex`-based setup might look like compared to the
+usual centralized way, see [Figure 1](On the left there is the typical
+synchronization scenario involving a cloud storage service. On the right you see
+a typical distributed git-annex synchronization setup).
+
 ![On the left there is the typical synchronization scenario involving a cloud storage service. On the right you see a typical distributed git-annex synchronization setup.](img/gitcentralized.png)
 
 **Alternatives**: There are also some other tools like e. g. git-media,
@@ -136,7 +146,28 @@ cryptographic hash sum of the data itself. The files are stored in a key-value
 manner according in the so called *backend*. In this way e.g. the data's
 integrity might be validated by `git-annex fsck`. For a complete list with
 supported backends see @backends. The ,,symbolic link"-behavior is called `git
-annex indirect`-mode.
+annex indirect`-mode. To can get more information about the configuration of a
+repository you can run the `git annex info` command inside the repository.
+
+~~~bash
+    $ git annex info
+    repository mode: indirect
+    trusted repositories: 0
+    semitrusted repositories: 2
+            00000000-0000-0000-0000-000000000001 -- web
+            d9b74881-8579-48ef-8964-9fc445f2978d -- myrepo [here]
+    untrusted repositories: 0
+    transfers in progress: none
+    available local disk space: 56.52 gigabytes (+1 megabyte reserved)
+    local annex keys: 1
+    local annex size: 5 bytes
+    annexed files in working tree: 1
+    size of annexed files in working tree: 5 bytes
+    bloom filter size: 16 mebibytes (0% full)
+    backend usage: 
+            SHA256E: 2
+
+~~~
 
 As the symbolic link approach is not always a wanted behavior, there is also the
 `git annex direct` mode. This mode is also used when symbolic links are not
@@ -169,9 +200,12 @@ purposes. A repository is represented by a unique id (UUID), a typical extended
 #Introduction to git annex usage
 
 As `git-annex` is primary a command line tool developed by developers for power
-users. But in meantime there is also a fancy GUI-based tool called `git annex
-webapp`. It is a part of the `git annex assistant`. This chapter gives a short
-introduction to the way `git-annex` can be used.
+users. But in meantime there is also a fancy GUI-based tool called [git annex
+webapp](#webapp). It is a part of the [git annex assistant](#assistant). This chapter
+gives a short introduction to the way `git-annex` can be used. Basic usage
+commands are demonstrated only. For a complete list of command and possibilities
+of `git-annex` see the manpage or type `git annex` inside the repository to get
+a list of all possible commands.
 
 ## Commandline usage 
 
@@ -221,15 +255,18 @@ synchronization the way like Dropbox Client similar synchronisation tools work.
 By default only metadata is synchronized. Applying the `--content` option to the
 git annex assistant client will tell `git-annex` to synchronize the content too.
 
-## Git-annex webapp
+## Git-annex webapp {#webapp}
 
-The webapp of `git-annex` is a part of the `git annex assistant`. It allow the
-configuration and management of repositories and remotes in a user friendly way.
+The webapp of `git-annex` is a part of the `git annex assistant`. Running the
+command `git annex webapp` starts a `git-annex` service listening on localhost. 
+
+The webapp allows the configuration and management of repositories and remotes
+in a user friendly way.
 
 
-![iw](img/gitannexassistant.png "Voyage to the moon")
+![Git annex webapp syncing files.](img/gitannexassistant.png "Voyage to the moon")
 
-Figure [figure](#iw) shows the `git annex webapp`. Using the webapp the user has
+Figure [figure](#Git annex webapp syncing files.) shows the `git annex webapp`. Using the webapp the user has
 the possibility to setup `git-annex` repositories completely command line free.
 It is also possible to configure `special remotes` and use features like
 file encryption. The purpose is also to provider a ,,Dropbox like" user
@@ -362,6 +399,34 @@ your files are stored. By running
 `git-annex` tells you, where your files are stored and how much copies are
 present across all repositories.
 
+**JSON Interface**: This is a `git-annex` option which makes the command line
+tool suitable for script able task. Adding the `--json` option to a command
+returns a *JSON*-formatted document witch e.g. might be easily parsed by a
+script.
+
+~~~bash
+    $ git annex info --json
+    {
+        "command":"info",
+        "repository mode":"indirect",
+        "trusted repositories":[],
+        "semitrusted repositories":[
+            {"uuid":"00000000-0000-0000-0000-000000000001",
+                "description":"web","here":false},
+            {"uuid":"d9b74881-8579-48ef-8964-9fc445f2978d",
+                "description":"myrepo","here":true}
+            ],
+        "untrusted repositories":[],
+        "available local disk space":"56.52 gigabytes (+1 megabyte reserved)",
+        "local annex keys":1,
+        "local annex size":"5 bytes",
+        "annexed files in working tree":1,
+        "size of annexed files in working tree":"5 bytes",
+        "bloom filter size":"16 mebibytes (0% full)",
+        "success":true
+    }
+~~~
+
 **Testsuite:** `Git-annex` was not developed as a script as the developer
 wanted to have a full featured and stable testing environment. `Git-annex`
 implements a `git annex test` command to run all available test cases for
@@ -374,7 +439,16 @@ This is also a nice feature to test a self implemented `special remote`-module.
 
 `Git annex` is by no means not only a tool for *unix hackers* and power users.
 There has also been a lot of development done yet to make `git-annex` more user
-friendly.  
+friendly. If summed up the `git annex` command line utility implements over 70
+different commands grouped in the command subcategories ,,commonly used",
+,,repository setup", ,,repository maintenance",  ,,query", ,,metadata",
+,,utility", ,,plumbing" and ,,testing". The `git-annex` command line utility is
+very mighty and well structured. It is not only suitable for manual usage but
+also vor complex scripting task using the *JSON* interface. With great power
+comes great responsibility - so the `git-annex` command line utility is
+definitely not a tool for a command line or unix newcomer. But for this user
+group there is the `git annex webapp`-GUI which make using `git-annex` a
+pleasure.
 
 # References
 
