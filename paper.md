@@ -24,41 +24,42 @@ abstract: |
 
 # Introduction
 
-The demand on data access is growing day by day. Today a lot of user have
-multiple devices like a pc,  a laptop, a tablet pc or a smart phone. It is also a
-comfortable way to synchronize e.g. photos with friends or sensible documents
-with co--workers. 
+The demand on data access is growing day by day. Today a lot of users have
+multiple devices like a pc, a laptop, a tablet pc or a smart phone. Usually
+synchronisation with cloud storage services is preformed to keep data up to date
+on all devices. Cloud services are also a comfortable way to share e.g.
+photos with friends or sensible documents with co-workers. 
 
 To keep all important files (e.g. documents, photos) in sync, a synchronisation
 tool is needed. Cloud storage services are also often used as backup location
 for private or commercial data. As devices are not inevitably connected directly
 with each other, a cloud storage service is used as a intermediary. Widely used
 cloud storage service providers are Dropbox, Box.com, Google Drive, Apple iCloud
-and Microsoft OneDrive @storageproviders.
+and Microsoft OneDrive, see @storageproviders.
 
-There are known issues with cloud storage services which may cause data loss
-@dbsync or unauthorized access @dbpass to private data. Your
-data also might be unaccessible when a provider gets taken down by the FBI
-because of piracy allegations @piracy. Another point is that the user doesn't
-know if his private or commercial data gets encrypted properly. Also there might
-be a privacy issues because of PRISM @prism. Usually there is always the
-problem with most of the cloud storage services provides that used tools and
-methods are not transparent.
+But there are known issues with cloud storage services which may cause data loss
+@dbsync or unauthorized access @dbpass to private data. Data also might be
+unaccessible when a provider gets taken down by the FBI because of piracy
+allegations, see @piracy. Another point is that the user doesn't know if his
+private or commercial data gets encrypted properly. Also there might be a
+privacy issues because of PRISM @prism. In general, there is the problem with
+most of the cloud storage services providers, that used tools and methods are
+not transparent at all.
 
-To keep data nevertheless accessible and secure backups and the use of
+To keep data nevertheless accessible and secure the use of backups and
 encryption is advisable. When backing up data, one should always bear in mind
-that hardware is also very error prone @ramhdd, @bitrot.
+that hardware is also very error prone, see @ramhdd or @bitrot.
 
-To sum up, just doing a backup is not enough to keep data safe and secured. It
+Just to sum up, doing a backup is not enough to keep data safe and secured. It
 is also necessary to check the data's integrity (checking if data is
-unchanged/valid). Therefor a backup and restore strategy (validating the
-integrity of data) is needed.
+unchanged or valid). Therefore a backup and restore strategy to validate the
+integrity of data, is needed.
 
 There are numerous ways check or ensure data integrity. One possibility would be
-to use filesystems like `ZFS` or `BTRFS` which by itself ensure that your data
+to use filesystems like `ZFS` or `BTRFS` which by itself ensure that data
 doesn't get corrupted. These filesystems have the ability to detect and avoid
-avoid data corruption @dataintegrity. Another possibility to identify data
-corruption is by checksumming @checksum the data. 
+data corruption, see @dataintegrity. Another possibility to identify data
+corruption is by checksumming the data, see @checksumming.
 
 To keep the data secured and avoid unauthorized access encryption a proven
 standard encryption should be used @cryptography. 
