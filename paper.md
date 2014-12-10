@@ -21,20 +21,20 @@ abstract: |
 
 # Introduction
 
-The task of software deployment is still considered as very hard by many
+The task of software deployment is still considered to be very hard by many
 distributors. Modern software is characterized by relying on many external
 heterogeneous components (e.g. external libraries or databases) which will be
-called dependencies hereafter. While this is a good for preventing the
+named dependencies hereafter. While this is good for preventing the
 reimplementation of already solved problems, the dependencies may change
-drastically themselves over time. This makes it very hard for all parties to
+drastically over time. This makes it very hard for all parties to
 maintain a consistent, working state.
 
 Since dependencies are developed by their own respective developers, changes can
 result in broken application programming interfaces (APIs) which, in the simple
 case, result in failed compilations or in more subtle changes where the API
 stays the same but behaves slightly different. In any case the software will be
-broken under certain circumstances, causing bug reports by the user. The exact
-circumstances where the error occurs is often hard to reproduce for the
+broken under certain circumstances. This leads to bug reports by the users. The
+exact circumstances where the error occurs is often hard to reproduce for the
 developer, often leading to a ``'cannot reproduce'`` state of the bug report.
 
 Current state of the art is using hardware virtualization techniques to 
@@ -44,7 +44,7 @@ the virtual images created by tools like VirtualBox @virtualbox or VMWare
 transfer. Additionally they are usually not versioned, so the full image needs
 to be transferred on every update. Furthermore, virtualized applications usually
 run slower than native applications - which is unacceptable for e.g. scientific
-usage.
+purposes.
 
 Many developers are not even fully aware of these difficulties. The software is
 either distributed as binary blob for proprietary software or as source code
@@ -58,7 +58,7 @@ way.
 
 # Application Containers
 
-In Marc 2013 ``Docker`` was released by *dotCloud* @dotcloud, a Platform as a Service
+In March 2013 ``Docker`` was released by *dotCloud* @dotcloud, a Platform as a Service
 company. The application, which is written entirely in Google's programming
 language *Go*, soon gathered attention from many large companies including
 Microsoft @dockerblog, IBM and others since they have seen ``Docker`` as a promising
@@ -75,7 +75,7 @@ server, making it not possible to run *GUI* applications inside of images by
 default. These images are often called *base images*, to indicate that one is
 supposed to create an own version based on them.
 
-Applications that run inside of the container have a full copy of the filesystem
+Applications that run inside of the container have a full copy of the file-system
 in the image which they can modify at will. By default, the application has no
 way of accessing the host's resources, since the kernel of the host starts all
 *dockerized* application in a new *namespace*. This allows the container
@@ -92,25 +92,25 @@ all containers on a single system.
 
 In order to pack an application inside of an container one has two options:
 
-1) Download one of the many base images from *DockerHub* and modify it by
+1) Download one of the many base images from *DockerHub* @dockerhub and modify it by
    running a shell inside of it. Inside this shell it is possible to modify 
    the container to the developer's needs. For example, he might use the Linux 
    distribution's package manage in order to install a webserver (as an example
-   dependency), his application that runs on top of it and possibly populates
-   a database with the data needed for the application.
+   dependency), his application that runs on top of the webserver and
+   additionally populates a database with the data needed for the application.
 2) The above method is tedious if many containers need to be created, all of
    them with minimal configuration changes. In this case this process can be
    automated via a so-called ``Dockerfile``. A ``Dockerfile`` is basically a
    list of commands needed to reproduce the container from a base image (which
-   must be stated on the first line). The image can be built with a single 
-   ``docker`` command that pulls the base image and applies each command on it
-   automatically. With small amounts of scripting it is possible to create 
+   must be stated on the first line of the file). The image can be built with a
+   single ``docker`` command that pulls the base image and applies each command
+   on it automatically. With small amounts of scripting it is possible to create
    slightly different configurations for every build.
 
 While the second option is a lot mightier and faster on the second run, the
 first one is the default strategy for many use-cases. 
-A short demonstrative commandline session is given to illustrate the said in the
-following. As a convention, the line starts with ``'$'`` if it was executed on the
+A short demonstrative commandline session is given to illustrate the said.
+As a convention, the line starts with ``'$'`` if it was executed on the
 host system and with ``'>'`` if it is run inside of a container. Explanatory
 comments are given with a ``'#'`` in front of them.
 
@@ -133,52 +133,54 @@ hello world
 
 ## Technical aspects
 
-![Container example with two containers](docker-containers.png)
-
-The [container example](Container example with two containers) (Source:
-@src_docker_overview) below shows the layers used in ``Docker``. Two containers
-(Debian and BusyBox) are shown that both run on the same kernel and have a
-different level of versioned commits.
+The example in Fig. \ref{container} below shows the layers used in ``Docker``.
+Two containers (Debian and BusyBox) are shown that both run on the same kernel
+and have a different level of versioned commits.
 
 The biggest difference to other commonly used techniques is that all
 applications run on the same operating system, which means on the same kernel,
 but with a different userspace. This allows the sandboxed application to
 directly access the hardware over a thin layer of Linux kernel techniques. This
-lies contrast to true hardware virtualization where a whole new kernel is
+lies in contrast to true hardware virtualization where a whole new kernel is
 started on emulated hardware. This is called operating system level
 virtualization @barham2003xen.
 
-The layer between kernel and userspace is ``cgroups``. It allows the grouping of
-processes and creating the already mentioned namespaces for them. Additionally
-it is possible to configure the ressources that a group of processes may use in
-a fine-grained way. All processes in a ``Docker`` container run in such a
-process group, therefore every container can be configured in the same way.
+![Container example with two containers, one running Debian with some additional
+software, the other one running BusyBox, a very minimal linux distribution\label{container} (Source: @src_docker_overview)](docker-containers.png)
+
+
+The layer between kernel and userspace is ``cgroups`` (see @cgroups for more
+information). It allows the grouping of processes and creating the already
+mentioned namespaces for them. Additionally it is possible to configure the
+ressources that a group of processes may use in a fine-grained way. All
+processes in a ``Docker`` container run in such a process group, therefore every
+container can be configured in the same way.
 
 Since ``Docker`` containers are versioned, containers need a way to write their
-changes into a staging area, so the original container is not modified until the
-developer decides he wants to commit his staged changes. For this purpose
-``Docker`` uses a overlay filesystem. ``Docker`` can use both ``aufs`` or
-``btrfs``. ``aufs`` for example provides a read- and writable overlay over a
-normal filesystem which is only readable through ``aufs``. All written changes
+changes into a in-memory staging area, so the original container is not modified
+until the developer decides he wants to commit his staged changes. For this
+purpose ``Docker`` uses a overlay filesystem. ``Docker`` can use both ``aufs``
+or ``btrfs``. ``aufs`` for example provides a read- and writable overlay over a
+usual filesystem which is only readable through ``aufs``. All written changes
 are cached until synchronization is requested by the user.
 
-![Shipyard screenshot](shipyard.png)
+![Screenshot of the Shipyard monitoring application.\label{shipyard} (Source: @src_shipyard)](shipyard.png)
 
 In order to make ``Docker`` easily extendible and controllable, the tool is
-split up in a daemon called ``dockerd`` and ``docker clients`` which are usually
-the commandline ``Docker`` utility and also each application container. This
-split up also allows a clean language agnostic extension approach since all
+split up in a daemon called ``dockerd`` and ``docker clients``. Clients are
+usually the commandline ``docker`` utility and also each application container.
+This split up also allows a clean language agnostic extension approach since all
 communication goes over a defined network protocol. Therefore it is easily
 possible  to develop remote control software that is able to list all
 containers, show statistics of them and to start or stop them. The open source
-webtool ``Shipyard`` ([Example](Shipyard screenshot), Source: @src_shipyard) is
-an example for such a remote control.
+webtool ``Shipyard`` (see figure \ref{shipyard}) is an example for such a remote
+control.
 
-# Use cases
+# Typical use-cases
 
 ## Deployment of applications
 
-This is the main usecase of ``Docker``. 
+This is the main use-case of ``Docker``. 
 In the following example we (pre)install a simple application inside of an
 container and will publish it.
 
@@ -208,13 +210,13 @@ $ docker run -i -t sahib/cowsay_arch cowsay hello
                 ||     ||
 ```
 
-As you can see, we created a new image called ``sahib/cowsay_arch``. 
-We can directly start the application by naming it after ``docker run``. 
-Now we can publish this image on *DockerHub*, a platform for exchanging user
-created containerized applications. The key to this are the base images found on
-DockerHub @dockerhub, so instead of pushing the full 283 Megabyte for our example we will
+As you can see, we created a new image called ``sahib/cowsay_arch``. We can
+directly start the application by naming it after ``docker run``. Now we can
+publish this image on *DockerHub*, a platform for exchanging user created
+containerized applications. The key to this concept are the base images found on
+DockerHub, so instead of pushing the full 283 Megabyte for our example we will
 only push the difference to the *ArchLinux* base image -- which is about one
-megabyte. This near megabyte happens to be the size of the ``cowsay`` utility we
+megabyte. This megabyte happens to be the size of the ``cowsay`` utility we
 installed. 
 
 ```bash
@@ -264,7 +266,7 @@ bin  boot  dev	etc  home  lib	lib64  mnt  opt
 proc  root  run  sbin	srv  sys  tmp  usr  var
 ```
 
-A related usecase: third party applications that cannot be trusted can be easily
+A related use-case: third party applications that cannot be trusted can be easily
 executed inside a container. If they decide to do malicious actions the host
 system cannot be compromised. An usage of this principle would be running a
 browser inside of a ``Docker`` container to visit potentially unsafe websites
@@ -284,17 +286,17 @@ management shipped along ``Docker`` is still quite small. Therefore the *CoreOS*
 it's package manager. 
 
 It builts on the upcoming and already well-established init system ``systemd``
-to manage all services running on the server or cluster. ``systemd`` requires
-one to write a so-called Unit-file to be able to start, stop and monitor a
-service. Basically, it is a key-value mapping of events and the commands that
-should be executed in this case. Additionally the dependency of the unit can be
-configured, so ``systemd`` can start all dependency units needed to start a
-service. 
+(see @systemd for more information) to manage all services running on the server
+or cluster. ``systemd`` requires one to write a so-called Unit-file to be able
+to start, stop and monitor a service. Basically, it is a key-value mapping of
+events and the commands that should be executed in this case. Additionally the
+dependency of the unit can be configured, so ``systemd`` can start all
+dependency units needed to start a service. 
 
 For *CoreOS* the unit files will usually start docker containers and might for
 example look like this for an application that just repeats *Hello World*:
 
-```
+```ini
 [Unit]
 Description=HelloService   # Name of the service.
 Requires=docker.service    # Dependency: Docker
@@ -314,26 +316,23 @@ Therefore *CoreOS* ships a utility called *fleet*, which is able to distribute
 the unit file over the cluster and the associated docker containers and act as a
 wrapper to start and stop a service across a cluster using ``systemd``. 
 
-![fleet architecture overview with two services being distributed](core-os.png)
+![``fleet`` overview with two services being distributed
+\label{fleet} (Source: @src_coreos_overview)](core-os.png)
 
 
-As seen in the [fleet architecture overview with two services being
-distributed](CoreOs architecture) (Source: @src_coreos_overview), two services
-are distributed (two load balancer instances and six api servers that do the
-actual work). If one of the load balancers breaks down, another one can be
-started on another machine by ``fleet``. Through standard Linux daemons like
+As seen in the ``fleet`` architecture overiew in figure \ref{fleet}, two
+services are distributed (two load balancer instances and six api servers that
+do the actual work). If one of the load balancers breaks down, another one can
+be started on another machine by ``fleet``. Through standard Linux daemons like
 ``avahi``, *CoreOS* instances can be discovered on the network over *Zeroconf*,
 so adding new machines to the cluster is very easy. 
 
-![etcd overview with the container registration process](container-lifecycle.png)
-
 Since *CoreOS* needs a way to track which container runs on which machine, a
 global configuration daemon is needed. This daemon is called ``etcd``. As one
-can see in the [etcd overview with the container registration process](etcd
-overview) (Source: @src_coreos_etcd), new containers automatically get
-registered in the key-value store of ``etcd`` and unregistered once they stop.
-Each machine runs one ``etcd`` instance, which mirror their state all over the
-cluster.
+can see in the ``etcd`` overview in figure \ref{etcd}) , new containers
+automatically get registered in the key-value store of ``etcd`` and unregistered
+once they stop. Each machine runs one ``etcd`` instance, which mirror their
+state all over the cluster.
 
 Furthermore, applications can use the key-value store for reading, writing and
 listening for changes on certain keys. So, application relevant data can be
@@ -341,17 +340,20 @@ easily shared all over the cluster with minimal efforts. Additionally values can
 be watched for changes, so use-cases like watching an operation to finish and
 executing another task that relies on the data is possible.
 
+![``etcd`` overview, with the container registration process.\label{etcd} (Source: @src_coreos_etcd)](container-lifecycle.png)
+
 Sadly, an example of *CoreOS* is beyond the scope of this paper. 
+For more information, refer to the documentation in @coreos_docs.
 
 # Advanced features
 
-Until now we only had simple cases where only a single application runs inside a
-container. But real server software usually comes in many parts. For example one
-database backend, one analyzer engine, one webserver and many more small
-applications in between. Even worse, those application need to communicate over
-sockets, share data from a common mounted volume or just need to forward their
-network ports to the outside. This is all possible though with the extended
-features discussed in the following.
+Until now only simple cases were covered, where only a single application runs
+inside a container. But real server software usually comes in many parts. For
+example one database backend, one analyzer engine, one webserver and many more
+small applications in between. Even worse, those application need to communicate
+over sockets, share data from a common mounted volume or just need to forward
+their network ports to the outside. This is all possible though with the
+extended features discussed in the following.
 
 ### Port forwarding:
 
@@ -382,7 +384,7 @@ $ # host port 49155 is mapped to 5000 inside the container.
 ### Data Volumes:
 
 Some components of an application might need to share a common directory where
-they can save or read data from. This is a common usecase for database
+they can save or load data from. This is a common use-case for database
 application where the database server reads the data and occasionally another
 application generates new data and writes it to the common mount. While it would
 be possible to use a common network share (like ``nfs``), this would be neither
@@ -411,11 +413,11 @@ new_file
 ### Linking containers together:
 
 As previously mentioned, big application often come in several parts. It would
-be favourable if we could separate those parts in individual containers, but
+be favourable if one could separate those parts in individual containers, but
 somehow tell ``Docker`` they're part of something bigger. This is supported by a
 feature called *Container linking*.
 
-In order to establish links we need to give containers a name. By default
+In order to establish links one needs to give containers a name. By default
 ``Docker`` will name containers by two words that are connected with an
 underscore (e.g. ``silly_lovelace``). Since linking needs a predictable name, one can
 give an explicit name by passing ``--name predictable_name`` to the respective
@@ -444,22 +446,22 @@ ping: unknown host two
 ```
 
 As one can see, after linking the container ``two`` to the container ``one`` by
-using the ``--link source_container:link_alias`` we can reach the source
-container over network, but not the other way round. Each linked container
-can access it's source container by it's hostname. Furthermore ``Docker`` sets
-up some environment variables that tells us in a programmatic way the exact
-address data of the source container.
+using the ``--link source_container:link_alias`` flag, the source container can
+be reached over network, but not the other way round. Each linked container can
+access it's source container by it's hostname. Furthermore ``Docker`` sets up
+some environment variables that tells the programs in the target container in a
+programmatic way the exact address data of the source container.
 
-One could have done all of the above all by exposing a set of defined ports. The
-advantage of linking is that we don't need to expose our application to the
-network for security reasons.
+One could have done all of the above by exposing a set of defined ports. The
+advantage of linking is that no exposure of the application to the network is
+needed, which would be a possible security problem.
 
 # Conclusion
 
 ## Advantages
 
-After showing a brief overview over the features that docker provides, we want
-to look at it from a higher perspective and name some general advantages:
+After showing a brief overview over the features that docker provides, a higher
+view over it's general advantages and problems is given:
 
 - *Portability*: Docker strives to support most popular operating system. 
   Since development started on Linux, it is still the best supported platform. 
@@ -468,7 +470,7 @@ to look at it from a higher perspective and name some general advantages:
   (e.g. when running a Linux container on Windows or vice versa). 
   This is the main reason why ``Docker`` is not an competitor to tools like
   *VirtualBox* or *VMWare*, rather an alternative or extension. 
-- *Lightweight*: In the normal usecase containers start in under a second and
+- *Lightweight*: In the normal use-case containers start in under a second and
   are able to directly access the underlying hardware without serious
   restrictions. This makes it e.g. possible to use the host system GPU normally,
   which is a hard to impossible task in *VirtualBox*.
@@ -493,7 +495,7 @@ techniques, offering a similar interface to ``Docker``.
 ## Criticism
 
 There are some points that are criticized about the approach ``Docker`` is
-taking. The points listed here may or may not apply to a particular usecase, but
+taking. The points listed here may or may not apply to a particular use-case, but
 are at least worth a mention. 
 
 - Docker makes writing bad software easier by making it possible to ship "hacks"
