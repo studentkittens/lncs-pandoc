@@ -1,7 +1,7 @@
 ---
 documentclass: llncs
 title: Distributed file management using git-annex
-author: Christoph Piechula
+author: Christoph Piechula -- \today
 institute: Hochschule Augsburg - University of Applied Sciences
 email: "christoph.piechula@hs-augsburg.de"
 keywords: git, annex, distributed filemanagement, repository, remote, backup, storage, encryption
@@ -21,6 +21,7 @@ abstract: |
         the command line usage and explaining git-annex concepts and features.
 ---
 
+\pagestyle{plain}
 
 # Introduction
 
@@ -486,5 +487,6 @@ the mighty command line tool is a high barrier for newcomers.
 In the end, the users them self have to decide which way to go and if the data
 is important and needs to be secured and validated.
 
-# References
+\newpage
 
+# References
