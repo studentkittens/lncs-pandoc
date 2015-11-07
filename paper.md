@@ -6,7 +6,6 @@ institute: Hochschule Augsburg -- University of Applied Sciences
 email: "christoph.piechula@hs-augsburg.de"
 keywords: git, annex, distributed filemanagement, repository, remote, backup, storage, encryption
 abstract: | 
-
         Today cloud storage services are all over the place. There is dropbox,
         box.com, google cloud and many other storage services. Important files
         also often gets backuped to a local hard drive or network attached
@@ -19,7 +18,7 @@ abstract: |
         cloud security and data integrity in general. This paper intends to give
         a overview about git-annex in general. It also intends to demonstrate
         the command line usage and explaining git-annex concepts and features.
-        ---
+---
 
 \pagestyle{plain}
 
