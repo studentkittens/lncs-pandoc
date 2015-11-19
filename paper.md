@@ -1,11 +1,11 @@
 ---
 documentclass: llncs
-title: YubiKey Technology and Applications
+title: YubiKey - Technology and Applications
 author: Susanne Kießling-- \today
 institute: Hochschule Augsburg -- University of Applied Sciences
 email: "susanne.kiessling@hs-augsburg.de"
 keywords: YubiKey, two-factor-authentication, Token, Password, Security
-Abstract: | 
+abstract: | 
         Security of passwords and authentication issues in general are issues
         of high importance. Nevertheless a huge rate of passwords isn't secure
         enough and could be.
@@ -14,6 +14,19 @@ Abstract: |
 \pagestyle{plain}
 
 # Introduction
+
+In almost every authentication process a password is required. There are a lot
+of services and applications with password authentication and the amount of
+passwords to remember increases continuously. Unfortunately in many cases 
+the chosen passwords aren't secure enough. Which means they can be cracked
+e.g. by dictionary attacks. But even if you have chosen a secure password there
+are other risks e.g. the service it is for could leak it. At this point
+two factor authentication could be a security improvement. Two factor
+authentication in general consists of something you know and something you own.
+The YubiKey is a hardware token for two-factor authentication. It's the physical
+part within the two-factor authentication.
+
+
 
 ## Why to use a YubiKey
 
