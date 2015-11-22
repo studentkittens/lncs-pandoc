@@ -64,6 +64,14 @@ Furthermore no battery is needed.
 
 touch the YubiKey, generates password
 2 slots
+LED indicator
+
+## Where can it be used
+
+disk encryption
+computer login
+internet services
+...
 
 <!--
 MICRATHENE
@@ -102,12 +110,26 @@ tabelle bearbeitet hast!
 
 # Features
  
-## one-time-password
+## One Time Password
+
+Generating one-time passwords (OTP) was the basic function in early days of the
+YubiKey. Each one-time password works only once. It is used in combination with
+username and password. [Fig. 1] (#OTP) 
+
+![OTP.](img/otp.png)
+
+
+
 ## Static Password
 ## Fido U2F
 ## OpenPGP
 ## Near-Field-Communication (NFC)
+## PIV?
+## Secure Element?
+## Challenge Response
 ## Online and offline Applications
+
+# Configuration
 
 # YubiKey for Business
 # Comparision with other Solutions
