@@ -38,17 +38,32 @@ protect their data and systems. This point also will be covered in the paper.
 [^BTRFS]: ,,B-tree FS" A copy-on-write linux file system with similar features
 to zfs
 
-# Hardware and basic concept
+# Hardware and basic concepts
 
 First of all it's interesting to know how the YubiKey looks and which material
 is used. The size of YubiKey is 18mm x 45mm x 3mm and the weight is 3 gram.
 Which means it's a very light weight device. The used material is crush- and
-water-resistant. One of the Advantages the YubiKey has. There are five versions
+water-resistant. One of the advantages the YubiKey has. There are five versions
 of YubiKey available. In addition there are YubiKeys much smaller than the
-common size. It's called the Nano version. In figure XXX .... . The following
+common size. It's called the Nano version. [Fig. 1](# [On the left, YubiKey Standard - on the right, YubiKey Nano.) shows the Standard YubiKey
+and the YubiKey Nano version. The following
 table shows the different versions of YubiKey. A more detailed table could be
 find on ......
 
+![On the left, YubiKey Standard - on the right, YubiKey Nano.](img/yubikey.png)
+
+## Acts like a USB keyboard
+
+The basic idea is that YubiKey acts like a keyboard when it is plugged into a
+USB port. Which means there is no need for additional drivers or client
+software. The YubiKey will be identified as a standard USB Human Interface
+Device (HID). Therefore it's possible to use the native system drivers. 
+Furthermore no battery is needed. 
+
+## Basic handling
+
+touch the YubiKey, generates password
+2 slots
 
 <!--
 MICRATHENE
@@ -85,20 +100,18 @@ tabelle bearbeitet hast!
 | *Online Applications* |  \color{green}{\ding{52}} | \color{green}{\ding{52}} |  \color{green}{\ding{52}} |  \color{green}{\ding{52}} |   \color{green}{\ding{52}} |
 +-----------------------+---------------------------+--------------------------+---------------------------+---------------------------+----------------------------+
 
-## Features and Versions
-# Application 
-## two-factor-authentication 
+# Features
+ 
 ## one-time-password
-## combination with password-manager
-# YubiKey for 
-Business
+## Static Password
+## Fido U2F
+## OpenPGP
+## Near-Field-Communication (NFC)
+## Online and offline Applications
+
+# YubiKey for Business
 # Comparision with other Solutions
 
-![The YubiKey.](img/yubikey.png)
-
-**Alternatives**: Tralalalallllllll
-
-## Git annex internals
 
 [^gcrypt]: Encryption tool for git repositories, https://github.com/bluss/git-remote-gcrypt
 [^gpg]: GNU Privacy Guard, a free tool that implements public key cryptography
