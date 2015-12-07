@@ -42,15 +42,17 @@ to zfs
 
 # Basic information
 
-The YubiKey was developed and manufactured by Yubico. In autumn 2015 the YubiKey
-4 were released, the 4th generation since the foundation of Yubico in 2007. For better understanding the whole idea and the basic concept of the
-YubiKey, some basics will be explained.
+The YubiKey was developed and manufactured by Yubico. In autumn 2015 the *YubiKey
+4* was released, the 4th generation since the foundation of Yubico in 2007.
+In order to understand the whole concept of YubiKey a few basics are shown in the
+next steps.
 
 ## Two-factor authentication
 
-Two-factor authentication consists of something you know and something you have.
-[Fig. 2](# [Concept of two-factor authentication.)
-The first factor is usually an username and password. The second factor is a
+Two-factor authentication consists of something you know and something you
+have
+[(see, Fig. 1)](# [Concept of two-factor authentication.).
+The first factor is usually a username and password. The second factor is a
 physical token, in this case the YubiKey.
 
 ![Concept of two-factor authentication.](img/2fauth.png)
@@ -61,7 +63,7 @@ physical token, in this case the YubiKey.
 The basic idea is that YubiKey acts like a keyboard when it is plugged into a
 USB port. Which means there is no need for additional drivers or client
 software. The YubiKey will be identified as a standard USB Human Interface
-Device (HID). Therefore it's possible to use the native system drivers. 
+Device (HID). Therefore it is possible to use the native system drivers. 
 Furthermore no battery is needed. 
 
 
@@ -69,18 +71,20 @@ Furthermore no battery is needed.
 ## The hardware token
 
 The size of YubiKey is 18mm x 45mm x 3mm and the weight is 3 gram.
-Which means it's a very light weight device. The used material is crush- and
-water-resistant. Figure [Fig. 3](#token) shows the YubiKey. There is a touchbutton in
-the middle of the YubiKey. It's a capacitive touch sensor which means it only
-works with a finger. One of the advantages the YubiKey has. There are five versions
-of YubiKey available. In addition there are YubiKeys much smaller than the
-common size. It's called the Nano version. The following
-table shows the different versions of YubiKey. A more detailed table could be
-find on ......
+Which means it is a very light weight device. The used material is crush- and
+water-resistant. [Figure 2](#token) shows the YubiKey. There is a touchbutton in
+the middle of the YubiKey. It is a capacitive touch sensor which means it only
+works with a human finger. One of the strength the YubiKey has.
 
+There are five versions of YubiKey available [(see Fig. 3)](#versions). The
+functions will be explained in chapter XX. 
+In addition there are YubiKeys much smaller than the
+common size. It is called the *Nano* version.
 
-![token](img/yubi_outside_paper.png)
+![YubiKey – The hardware token.](img/yubi_outside_paper.png)
 
+![The versions of YubiKey. From the first developed (*Standard*) to the latest
+version (*YubiKey 4*).](img/versions.png)
 
 ## How it works
 
@@ -89,7 +93,7 @@ pressed, it executes the configured function. For example it generates an
 one-time password. The generating of one-time passwords will be explained in
 part XXXXX. There are two slots which can be configured. The first slot can 
 be accessed with a short press (0.3 - 1.5 seconds) and the second slot can be accessed
-with a long press (2.5 - 5 seconds). There is also an LED indicator signaling
+with a long press (2.5 - 5 seconds) [@manual chapter 4.1]. There is also an LED indicator signaling
 the current state of the YubiKey. If the YubiKey is ready to work there is a
 steady green light. A rapidly flashing light means some kind of error.
 
@@ -105,33 +109,48 @@ MICRATHENE!!! nicht vergessen dann :set filetype=pandoc zu machen nachdem du die
 tabelle bearbeitet hast!
 -->
 
+<!--
++----------------------+----------------+-----------------+------------------+----------------------+--------------+
+|                      |  **YubiKey 4** | **YubiKey Neo** | **YubiKey Edge** | **YubiKey Standard** | **Fido U2F** |
++======================+================+=================+==================+======================+==============+
+|  Static Passwords    | \ding{52}      | \ding{52}       | \ding{52}        | \ding{52}            |  \ding{56}   |
++----------------------+----------------+-----------------+------------------+----------------------+--------------+
+|  YubiKey OTP         | \ding{52}      | \ding{52}       | \ding{52}        | \ding{52}            |  \ding{56}   |
++----------------------+----------------+-----------------+------------------+----------------------+--------------+
+|  Smartcard (OpenPGP) |  \ding{52}     | \ding{52}       | \ding{56}        | \ding{56}            |  \ding{56}   |
++----------------------+----------------+-----------------+------------------+----------------------+--------------+
+|  Fido U2F            |  \ding{52}     | \ding{52}       |  \ding{52}       | \ding{56}            |  \ding{52}   |
++----------------------+----------------+-----------------+------------------+----------------------+--------------+
+|  Online Applications |  \ding{52}     | \ding{52}       | \ding{52}        |   \ding{52}          |  \ding{52}   |
++----------------------+----------------+-----------------+------------------+----------------------+--------------+
+-->
 
-+-----------------------+---------------------------+--------------------------+---------------------------+---------------------------+----------------------------+
-|                       |  **YubiKey 4**            | **YubiKey Neo**          | **Fido U2F**              | **YubiKey Edge**          | **YubiKey Standard**       |
-+=======================+===========================+==========================+===========================+===========================+============================+
-| *Static Passwords*    |  \color{green}{\ding{52}} | \color{green}{\ding{52}} |  \color{red}{\ding{56}}   | \color{green}{\ding{52}}  | \color{green}{\ding{52}}   |
-+-----------------------+---------------------------+--------------------------+---------------------------+---------------------------+----------------------------+
-| *YubiKey OTP*         | \color{green}{\ding{52}}  | \color{green}{\ding{52}} |  \color{red}{\ding{56}}   | \color{green}{\ding{52}}  | \color{green}{\ding{52}}   |
-+-----------------------+---------------------------+--------------------------+---------------------------+---------------------------+----------------------------+
-| *OATH - HOTP*         |  \color{green}{\ding{52}} | \color{green}{\ding{52}} |  \color{red}{\ding{56}}   | \color{green}{\ding{52}}  | \color{green}{\ding{52}}   |
-+-----------------------+---------------------------+--------------------------+---------------------------+---------------------------+----------------------------+
-| *OATH - TOTP*         |  \color{green}{\ding{52}} | \color{green}{\ding{52}} |  \color{red}{\ding{56}}   | \color{green}{\ding{52}}  | \color{green}{\ding{52}}   |
-+-----------------------+---------------------------+--------------------------+---------------------------+---------------------------+----------------------------+
-| *PIV*                 |  \color{green}{\ding{52}} | \color{green}{\ding{52}} |  \color{red}{\ding{56}}   | \color{red}{\ding{56}}    | \color{red}{\ding{56}}     |
-+-----------------------+---------------------------+--------------------------+---------------------------+---------------------------+----------------------------+
-| *OpenPGP*             |  \color{green}{\ding{52}} | \color{green}{\ding{52}} |  \color{red}{\ding{56}}   | \color{red}{\ding{56}}    | \color{red}{\ding{56}}     |
-+-----------------------+---------------------------+--------------------------+---------------------------+---------------------------+----------------------------+
-| *Fido U2F*            |  \color{green}{\ding{52}} | \color{green}{\ding{52}} |  \color{green}{\ding{52}} |  \color{green}{\ding{52}} | \color{red}{\ding{56}}     |
-+-----------------------+---------------------------+--------------------------+---------------------------+---------------------------+----------------------------+
-| *Secure Element*      |  \color{green}{\ding{52}} | \color{green}{\ding{52}} |  \color{green}{\ding{52}} |  \color{green}{\ding{52}} | \color{red}{\ding{56}}     |
-+-----------------------+---------------------------+--------------------------+---------------------------+---------------------------+----------------------------+
-| *Online Applications* |  \color{green}{\ding{52}} | \color{green}{\ding{52}} |  \color{green}{\ding{52}} |  \color{green}{\ding{52}} |   \color{green}{\ding{52}} |
-+-----------------------+---------------------------+--------------------------+---------------------------+---------------------------+----------------------------+
+Die Tabelle  @tbl:demo zeigt...
 
+-----------------------------------------------------------------------------------------------------
+                                YubiKey      YubiKey              YubiKey       YubiKey       YubiKey
+Function                              4          Neo                 Edge      Standard      Fido U2F
+--------------------------    ---------   ----------         ------------     ---------     ---------
+Static Passwords              \ding{52}    \ding{52}            \ding{52}     \ding{52}     \ding{52}        
+YubiKey OTP                   \ding{52}  
+Smartcard (OpenPGP)           \ding{52} 
+Fido U2F                      \ding{52} 
+Online Applications           \ding{52}
+-----------------------------------------------------------------------------------------------------
+
+Table: Caption. {#tbl:demo} 
 
 
 # Functions and Features
- 
+
+The YubiKey offers various functions and features depending on its version @tbl:demo.
+The major function is to generate one-time passwords. Because of this the one-time password
+will be shown more detailed. Other functions are for example the static password, connection
+via NFC [^NFC], smartcard or Fido U2F[^U2F]. 
+
+[^NFC]: Near-Field-Communication
+
+
 ## One Time Password
 
 Generating one-time passwords (OTP) was the basic function in early days of the
@@ -176,11 +195,12 @@ and the received counter value is stored.
 
 In the white paper *YubiKey Static Password Function* [@static] the developer of the
 YubiKey delivers insight to the background of static passwords concerning the
-YubiKey. Of course, static passwords aren't as secure as one-time passwords but
+YubiKey. Of course, static passwords are not as secure as one-time passwords but
 not any application supports one-time passwords. For this reason the static
 password function was implemented. It's an combination of 16 to 64 characters or
-numbers. [Fig.](#Static password) 
-
+numbers. It is recommendable to combine the static password with a manually
+added part. [Fig.](#Static password) shows an example. The word *banana*
+is manually added to the generated 16 chars static password.
 
 ![Static password.](img/static_pw.png)
 
@@ -197,23 +217,46 @@ the stored PGP keys can be secured with an PIN.
 
 **Near-Field-Communication (NFC)**
 YubiKey in the version *Neo* supports connection via
-Near-Field-Communication (NFC). 
+Near-Field-Communication (NFC). Therefore it's possible to have easy to use
+two-factor authentication with NFC-enabled smartphones. The YubiKey has only be
+touched to the smartphone which acts as NFC reader. It depends on the
+configuration and type of record but the most common one is the URI- and Text
+type. Which means the YubiKey constructs a concatenation between a URI and a
+generated one-time password [@manual chapter 7.2].
+
+example?
 
 
 **Fido U2F**
 
+U2F[^U2F] stands for *Universal Second Factor* and is an open authentication
+standard. It was created by Yubico and Google, hosted by FIDO -- the
+open-authentication industry consortium. Summarized could U2F explained an a
+challenge-response protocol which works in the background. It is implemented
+along the one-time password. The user does the same as it were a one-time
+password application. There is a detailed technical description of U2F at the
+developer sites on yubico.com [@u2f].
 
+
+[^U2F]: Universal Second Factor
 
 # Where to use the YubiKey
 
-The YubiKey can be used for securing access to many applications. Online
+The YubiKey can be used for securing access to many applications. First Online
 Applications and Password Managment seems to be the most interesting. Of course
 there are many more applications, some of them will be mentioned.
 
 ## Online Applications
 
 Everyone logging in to online applications wants to secure their private data
-and identity. Facebook on its own had 233 million daily active users in third
+and identity. But every day online accounts were hacked, passwords and private data
+were stolen. A lot of online applications already offers two-factor authentication to add an extra layer
+of security. Some of them will
+be presented in the following.
+
+
+<!--
+Facebook on its own had 233 million daily active users in third
 quartal of 2015 in Europe [@statista]. Therefore and many other applications the
 YubiKey offers an additional layer of security.
 
@@ -223,9 +266,16 @@ account to many other online applications. Which means in this case, stolen
 access data can be used to access also other applications. Using the YubiKey
 to login via facebook account secures the access to the data. Of course, facebook itself
 is nevertheless collecting and using the data. That is a different matter.
-
+-->
 
 **Google**
+
+Google promotes the login with only one username and password to all of their services.
+If this username and password is stolen all services can be accessed and harmed.
+Particularly in this case, two-factor authentication is very helpfull. Google offers
+two-factor authentication with YubiKey via U2F standard.
+
+
 
 
 **Dropbox**
@@ -253,8 +303,14 @@ offers an extra layer of security.
 # Configuration
 
 To configure the YubiKey there is a tool called *YubiKey Persolization Tool*
-[@configuration]. It is plattform independent. 
-Also configuration with command line interface (CLI) is possible.
+[@configuration]. It is plattform independent. The following functions can
+be configured: OTP (Yubico OTP and OATH-HOTP), Static Password and Challenge Response
+Mode. To all of this functions there is a quick and an advanced configuration mode.
+Furthermore the tool shows which slots are configured. The default value of slot 1
+is to generate one-time passwords. But this can be configured as wanted. There is also an
+overview of supported features.
+
+Of course it is possible to configure the YubiKey with command line interface.
 - Vielleicht eine Configuration zeigen? mit CLI und GUI?
 - für smartcard extra tool
 
