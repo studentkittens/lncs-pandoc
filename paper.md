@@ -214,13 +214,15 @@ there are many more applications, some of them will be mentioned.
 
 Everyone logging in to online applications wants to secure their private data
 and identity. Facebook on its own had 233 million daily active users in third
-quartal of 2015 in Europe. It is also possible to login with the facebook
-account to many other online applications. Which means in this case, stolen
-access data can be used to access also other applications. Using the YubiKey
-to login to facebook secures the access to the data. Of course, facebook itself
-is nevertheless collecting and using the data. That is a different matter.
+quartal of 2015 in Europe [@statista]. Therefore and many other applications the
+YubiKey offers an additional layer of security.
 
 **Facebook**
+It is also possible to login with the facebook
+account to many other online applications. Which means in this case, stolen
+access data can be used to access also other applications. Using the YubiKey
+to login via facebook account secures the access to the data. Of course, facebook itself
+is nevertheless collecting and using the data. That is a different matter.
 
 
 **Google**
@@ -250,7 +252,8 @@ offers an extra layer of security.
 
 # Configuration
 
-To configure the YubiKey there is a tool called *YubiKey Persolization Tool*. 
+To configure the YubiKey there is a tool called *YubiKey Persolization Tool*
+[@configuration]. It is plattform independent. 
 Also configuration with command line interface (CLI) is possible.
 - Vielleicht eine Configuration zeigen? mit CLI und GUI?
 - für smartcard extra tool
