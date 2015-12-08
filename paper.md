@@ -58,13 +58,15 @@ physical token, in this case the YubiKey.
 ![Concept of two-factor authentication.](img/2fauth.png)
 
 
+
 ## Acts like a USB keyboard
 
 The basic idea is that YubiKey acts like a keyboard when it is plugged into a
 USB port. Which means there is no need for additional drivers or client
 software. The YubiKey will be identified as a standard USB Human Interface
 Device (HID). Therefore it is possible to use the native system drivers. 
-Furthermore no battery is needed. 
+Furthermore no battery is needed. Similar to any other USB keyboard the
+YubiKey is a USB 1.0/2.0 device[@manual chapter 2]. 
 
 
 
@@ -141,6 +143,7 @@ Online Applications           \ding{52}
 Table: Caption. {#tbl:demo} 
 
 
+
 # Functions and Features
 
 The YubiKey offers various functions and features depending on its version @tbl:demo.
@@ -189,6 +192,7 @@ and the received counter value is stored.
 
 
 ![OTP.](img/otp.png)
+
 
 
 ## Static Password
@@ -317,12 +321,41 @@ Of course it is possible to configure the YubiKey with command line interface.
 
 # YubiKey for Business
 
-- have to handle the challenge: securing data and systems
-- securing mobile devices
+Enterprises have to handle the challenge to secure their data and systems.
+On the one hand the YubiKey offers strong authentication and on the other hand,
+it is very simple to use. Especially the simple to use concept is an important
+factor for employees using the YubiKey every day.
+
+There are many enterprises already using the YubiKey. For example Google is
+using the YubiKey for all employees. Also Facebook is using it for several
+applications. In an interview, John Flynn from Facebook annouced the situation
+when employees wants to read their emails somewhere else than the office. So 
+the employee is asked to tap on the YubiKey and ensures that nobody is breaking
+in with a stolen password [@flynn]. CERN, the European Organization
+for Nuclear Research is using the YubiKey for Secure Shell (SSH) and
+single-sign-on (SSO) web portal. Remi Mollon of the CERN Computer Security Team
+mentioned the open algorithm and the available open-source software support as 
+one of the facts why CERN is using the YubiKey [@mollon].
 
 
-- extra stations to configure more than one YubiKey
-- Administrator kann Zugriffe einsehen, recovery-codes etc.
+## Possible applications
+
+With the YubiKey the access to a lot of applications could be improved. In the
+following are some of them mentioned.
+ - Remote Access
+ - Computer Login
+ - Securing Servers
+ - Password Management
+ - Disk Encryption
+ - Securing Cloud Solutions
+ - Identity and Access Management
+ - Securing mobile devices
+
+
+## YubiKey Business Solutions
+
+extra stations to configure more than one YubiKey
+Administrator kann Zugriffe einsehen, recovery-codes etc.
 
 [^gcrypt]: Encryption tool for git repositories, https://github.com/bluss
 [^gpg]: GNU Privacy Guard, a free tool that implements public key cryptography
