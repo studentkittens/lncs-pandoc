@@ -72,28 +72,57 @@ YubiKey is a USB 1.0/2.0 device[@manual chapter 2].
 
 ## The hardware token
 
-The size of YubiKey is 18mm x 45mm x 3mm and the weight is 3 gram.
+The size of the YubiKey is 18mm x 45mm x 3mm and the weight is 3 gram.
 Which means it is a very light weight device. The used material is crush- and
 water-resistant. [Figure 2](#token) shows the YubiKey. There is a touchbutton in
-the middle of the YubiKey. It is a capacitive touch sensor which means it only
-works with a human finger. One of the strength the YubiKey has.
+the middle of the YubiKey. It is a solid-state capacitive touch sensor which means it only
+works with a human finger. The figure also shows the USB contacts and the
+equipment to put it on a keychain.
 
-There are five versions of YubiKey available [(see Fig. 3)](#versions). The
-functions will be explained in chapter XX. 
+There are five versions of YubiKey available (see table @tbl:demo). The
+amount of
+functions grows from the first YubiKey (YubiKey Standard) to the latest (YubiKey
+4). A special one is the FIDO U2F[^Fido] which only works with U2F compliant
+    applications. The features and funtions will be explained in
+    [chapter 3](#functions). 
 In addition there are YubiKeys much smaller than the
 common size. It is called the *Nano* version.
 
 ![YubiKey – The hardware token.](img/yubi_outside_paper.png)
 
-![The versions of YubiKey. From the first developed (*Standard*) to the latest
+[^Fido]: FIDO = the open-authentication industry consortium
+U2F = Universal Second Factor
+
+
+
+
+<!-- ![The versions of YubiKey. From the first developed (*Standard*) to the latest
 version (*YubiKey 4*).](img/versions.png)
+-->
+
+
+-----------------------------------------------------------------------------------------------------
+                                YubiKey      YubiKey              YubiKey       YubiKey       YubiKey
+Function                              4          Neo                 Edge      Standard      Fido U2F
+--------------------------    ---------   ----------         ------------     ---------     ---------
+Static Passwords              \ding{52}    \ding{52}            \ding{52}     \ding{52}     \ding{52}        
+YubiKey OTP                   \ding{52}  
+Smartcard (OpenPGP)           \ding{52} 
+Fido U2F                      \ding{52} 
+Online Applications           \ding{52}
+-----------------------------------------------------------------------------------------------------
+
+Table: YubiKey versions and some of their functions. {#tbl:demo} 
+
+
+
 
 ## How it works
 
-Everytime the YubiKey is plugged into an USB port and the touch sensor is
+Everytime the YubiKey is plugged into a USB port and the touch sensor is
 pressed, it executes the configured function. For example it generates an
 one-time password. The generating of one-time passwords will be explained in
-part XXXXX. There are two slots which can be configured. The first slot can 
+part [3.1](#otpexplain). There are two slots which can be configured. The first slot can 
 be accessed with a short press (0.3 - 1.5 seconds) and the second slot can be accessed
 with a long press (2.5 - 5 seconds) [@manual chapter 4.1]. There is also an LED indicator signaling
 the current state of the YubiKey. If the YubiKey is ready to work there is a
@@ -127,26 +156,12 @@ tabelle bearbeitet hast!
 +----------------------+----------------+-----------------+------------------+----------------------+--------------+
 -->
 
-Die Tabelle  @tbl:demo zeigt...
-
------------------------------------------------------------------------------------------------------
-                                YubiKey      YubiKey              YubiKey       YubiKey       YubiKey
-Function                              4          Neo                 Edge      Standard      Fido U2F
---------------------------    ---------   ----------         ------------     ---------     ---------
-Static Passwords              \ding{52}    \ding{52}            \ding{52}     \ding{52}     \ding{52}        
-YubiKey OTP                   \ding{52}  
-Smartcard (OpenPGP)           \ding{52} 
-Fido U2F                      \ding{52} 
-Online Applications           \ding{52}
------------------------------------------------------------------------------------------------------
-
-Table: Caption. {#tbl:demo} 
 
 
+# Functions and Features {#functions}
 
-# Functions and Features
-
-The YubiKey offers various functions and features depending on its version @tbl:demo.
+The YubiKey offers various functions and features depending on its version (see
+table @tbl:demo).
 The major function is to generate one-time passwords. Because of this the one-time password
 will be shown more detailed. Other functions are for example the static password, connection
 via NFC [^NFC], smartcard or Fido U2F[^U2F]. 
@@ -154,7 +169,8 @@ via NFC [^NFC], smartcard or Fido U2F[^U2F].
 [^NFC]: Near-Field-Communication
 
 
-## One Time Password
+## One Time Password {#otpexplain}
+
 
 Generating one-time passwords (OTP) was the basic function in early days of the
 YubiKey. Each one-time password works only once. With the YubiKey it is possible to use three
@@ -171,13 +187,15 @@ passcode. The YubiKey ID identifies a YubiKey, it is unique and never changes.
 
 ![OTP output.](img/otp_output.png)
 
-The general concept of generating YubiKey OTPs is described in the YubiKey Manual
-[@manual] and YubiKey Security Evaluation [@security] as follows:
+The second part is the encrypted passcode. In the YubiKey Manual
+[@manual] and YubiKey Security Evaluation [@security] the general concept of
+generating this part of the OTP is described as follows:
 
 Maltitude factors are combined to form a byte string. These factors are a
 private ID, usage counter, timestamp, session usage counter, random number and
-checksum. In the next step, the byte string is encrypted with a 128-bit AES key.
-Additionally the encrypted Hex-byte string is encoded to a ModHex string. That
+checksum. In the next step, the byte string is encrypted with a 128-bit
+AES[^AES] key.
+Additionally the now encrypted Hex-byte string is encoded to a ModHex string. That
 was made to stay independent from language settings of the operating system.
 
 The validation server receiving the string, [Fig. 4](#OTP) first converts it back to a byte
@@ -188,10 +206,9 @@ equal to the stored value on validation server, the one-time password is rejecte
 Is the counter greater than the stored value, the one-time password is valid
 and the received counter value is stored.
 
-
-
-
 ![OTP.](img/otp.png)
+
+[^AES]: Advanced Encryption Standard
 
 
 
@@ -203,7 +220,7 @@ YubiKey. Of course, static passwords are not as secure as one-time passwords but
 not any application supports one-time passwords. For this reason the static
 password function was implemented. It's an combination of 16 to 64 characters or
 numbers. It is recommendable to combine the static password with a manually
-added part. [Fig.](#Static password) shows an example. The word *banana*
+added part. [Figure 5](#Static password) shows an example. The word *banana*
 is manually added to the generated 16 chars static password.
 
 ![Static password.](img/static_pw.png)
@@ -221,7 +238,7 @@ the stored PGP keys can be secured with an PIN.
 
 **Near-Field-Communication (NFC)**
 YubiKey in the version *Neo* supports connection via
-Near-Field-Communication (NFC). Therefore it's possible to have easy to use
+Near-Field-Communication (NFC). Therefore it is possible to have easy to use
 two-factor authentication with NFC-enabled smartphones. The YubiKey has only be
 touched to the smartphone which acts as NFC reader. It depends on the
 configuration and type of record but the most common one is the URI- and Text
@@ -231,9 +248,9 @@ generated one-time password [@manual chapter 7.2].
 example?
 
 
-**Fido U2F**
+**FIDO U2F**[^U2F]
 
-U2F[^U2F] stands for *Universal Second Factor* and is an open authentication
+U2F stands for *Universal Second Factor* and is an open authentication
 standard. It was created by Yubico and Google, hosted by FIDO -- the
 open-authentication industry consortium. Summarized could U2F explained an a
 challenge-response protocol which works in the background. It is implemented
