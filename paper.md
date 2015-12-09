@@ -104,18 +104,22 @@ version (*YubiKey 4*).](img/versions.png)
 -->
 
 
------------------------------------------------------------------------------------------------------
-                                YubiKey      YubiKey              YubiKey       YubiKey       YubiKey
-Function                              4          Neo                 Edge      Standard      Fido U2F
---------------------------    ---------   ----------         ------------     ---------     ---------
-Static Passwords              \ding{52}    \ding{52}            \ding{52}     \ding{52}     \ding{52}        
-YubiKey OTP                   \ding{52}  
-Smartcard (OpenPGP)           \ding{52} 
-Fido U2F                      \ding{52} 
-Online Applications           \ding{52}
------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+                                YubiKey      YubiKey       YubiKey      Standard          FIDO
+Function/Feature                      4          Neo          Edge       YubiKey           U2F
+--------------------------    ---------   ----------     ---------     ---------     ---------
+Static Passwords              \ding{52}   \ding{52}      \ding{52}     \ding{52}     \ding{56}
 
-Table: YubiKey versions and some of their functions. {#tbl:demo} 
+YubiKey OTP                   \ding{52}   \ding{52}      \ding{52}     \ding{52}     \ding{56}
+
+Smartcard (OpenPGP)           \ding{52}   \ding{52}      \ding{56}     \ding{56}     \ding{56}
+
+Fido U2F                      \ding{52}   \ding{52}      \ding{52}     \ding{56}     \ding{52}
+
+Online Applications           \ding{52}   \ding{52}      \ding{52}     \ding{56}     \ding{52} 
+----------------------------------------------------------------------------------------------------
+
+Table: YubiKey versions and some of their functions and features. {#tbl:demo} 
 
 
 
@@ -175,7 +179,7 @@ via NFC [^NFC], smartcard or Fido U2F[^U2F].
 ## One Time Password {#otpexplain}
 
 
-Generating one-time passwords (OTP) was the basic function in early days of the
+Generating one-time passwords (OTPs) was the basic function in early days of the
 YubiKey. Each one-time password works only once. With the YubiKey it is possible to use three
 different implementations of one-time passwords. On the one hand the YubiKey
 OTP, developed by Yubico. On the other hand OATH-HOTP and OATH-TOTP, both
@@ -183,12 +187,14 @@ open authentication standards specified by OATH, the Initiative for Open Authent
 paper will go into detail on the YubiKey OTP. 
 
 A touch on the integrated sensor triggers the one-time password generation.
-Figure [Fig. 3](#OTP output) shows the output of touching the YubiKey. The
+Figure [3](#Generated one-time password. Consists of tow major parts: The YubiKey ID and
+the encrypted passcode.) shows the output of touching the YubiKey. The
 one-time password consists of two major parts, the YubiKey ID and the encrypted
 passcode. The YubiKey ID identifies a YubiKey, it is unique and never changes.
 
 
-![OTP output.](img/otp_output.png)
+![Generated one-time password. Consists of tow major parts: The YubiKey ID and
+the encrypted passcode.](img/otp_output.png)
 
 The second part is the encrypted passcode. In the YubiKey Manual
 [@manual] and YubiKey Security Evaluation [@security] the general concept of
@@ -236,7 +242,7 @@ supports also smartcard functions via CCID. An applet in the context of
 data security is for
 example to store OpenPGP keys. PGP stands for Pretty Good Privacy and is an
 open standard for encrypting emails, signatures and authentication. Additionally
-the stored PGP keys can be secured with an PIN.
+the stored PGP keys can be secured with a PIN.
 
 
 **Near-Field-Communication (NFC)**
@@ -246,10 +252,14 @@ two-factor authentication with NFC-enabled smartphones. The YubiKey has only be
 touched to the smartphone which acts as NFC reader. It depends on the
 configuration and type of record but the most common one is the URI- and Text
 type. Which means the YubiKey constructs a concatenation between a URI and a
-generated one-time password [@manual chapter 7.2].
+generated one-time password [@manual chapter 7.2]. The following example
+describes the process:
 
-example?
-
+~~~
+Configured URI: http://www.testsite.com/?otp=
+Generated OTP: niljijfcnfdbjeduvuthuugnvuuvgrnh
+Result: http://www.testsite.com/?otp=niljijfcnfdbjeduvuthuugnvuuvgrnh
+~~~
 
 **FIDO U2F**[^U2F]
 
@@ -395,7 +405,7 @@ one hand and critical business data on the other hand.
 
 Of course first there is a need to sensitise people to handle their data and
 credentials more carefull. A statistic of choosen passwords in 2013 shows
-the password *123456* as most used one. And maybe this people also do not
+the password *123456* as most used one [@statista]. And maybe this people also do not
 recognize the advantages of two-factor authentication.
 
 There are a lot of interesting projects with the YubiKey. For example the MIT
