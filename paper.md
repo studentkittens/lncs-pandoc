@@ -9,9 +9,12 @@ institute: Hochschule Augsburg -- University of Applied Sciences
 email: "susanne.kiessling@hs-augsburg.de"
 keywords: YubiKey, two-factor-authentication, Token, Password, Security
 abstract: | 
-        Security of passwords and authentication issues in general are issues
-        of high importance. Nevertheless a huge rate of passwords isn't secure
-        enough and could be.
+        Security of passwords and authentication issues in general becomes more
+        and more important nowadays. Everybody wants to secure their online
+        identity and access to personal data. Two-factor authentication adds an
+        extra layer of security to common username and password authentication.
+        The hardware token YubiKey supports two-factor authentication. This
+        paper shows an introduction to YubiKey technology and applications.
 ---
 
 \pagestyle{plain}
@@ -297,44 +300,52 @@ Particularly in this case, two-factor authentication is very helpfull. Google of
 two-factor authentication with YubiKey via U2F standard.
 
 
+**GitHub**
 
+GitHub is a webservice for revision control and source code management [@github].
+It is possible to log in to GitHub account with an U2F compliant YubiKey. In
+order to recognize how simple it is to set up two-factor authentication with
+GitHub, the steps have to do in the GitHub account are described:
+
+~~~
+1. Enable two-factor authentication
+2. Register a new device in Settings/Security
+3. Configure a backup: Fallback SMS number or recovery codes
+~~~
 
 **Dropbox**
 
-
-**GitHub**
-
+Dropbox supports login with FIDO U2F enabled YubiKeys. It is pretty simple to
+set up two-factor authentication for a Dropbox account. There is a step-by-step
+instruction on yubico.com [@dropbox].
 
 ## Password Management
 
 To manage passwords especially strong passwords which are not easy to remember,
 there are applications called password manager. But also the password manager
 needs to be protected with a strong password. In this case, the YubiKey
-offers an extra layer of security.
+offers an extra layer of security. Password managers offering two-factor
+authentication with the YubiKey are for example KeePass and LastPass.
 
-**LastPass**
-
-**KeePass**
 
 ## Other Applications
 
-**Disk Encryption**
-**System-Login**
+There are many more applications which can be secured with YubiKey. For example
+disk encryption, system-login XXXXXXXXXXXXXXXXXx
+
 
 # Configuration
 
 To configure the YubiKey there is a tool called *YubiKey Persolization Tool*
 [@configuration]. It is plattform independent. The following functions can
 be configured: OTP (Yubico OTP and OATH-HOTP), Static Password and Challenge Response
-Mode. To all of this functions there is a quick and an advanced configuration mode.
+Mode (see [Fig. X](#YubiKey Personalization Tool.). To all of this functions there is a quick and an advanced configuration mode.
 Furthermore the tool shows which slots are configured. The default value of slot 1
 is to generate one-time passwords. But this can be configured as wanted. There is also an
-overview of supported features.
+overview of supported features. Of course it is possible to configure the YubiKey with command line interface.
 
-Of course it is possible to configure the YubiKey with command line interface.
-- Vielleicht eine Configuration zeigen? mit CLI und GUI?
-- für smartcard extra tool
 
+![YubiKey Personlaization Tool.](img/config.png)
 
 # YubiKey for Business
 
@@ -359,32 +370,49 @@ one of the facts why CERN is using the YubiKey [@mollon].
 
 With the YubiKey the access to a lot of applications could be improved. In the
 following are some of them mentioned.
- - Remote Access
- - Computer Login
- - Securing Servers
- - Password Management
- - Disk Encryption
- - Securing Cloud Solutions
- - Identity and Access Management
- - Securing mobile devices
 
+<!--
+- Remote Access
+- Computer Login
+- Securing Servers
+- Password Management
+- Disk Encryption
+- Securing Cloud Solutions
+- Identity and Access Management
+- Securing mobile devices
+-->
 
 ## YubiKey Business Solutions
 
 extra stations to configure more than one YubiKey
 Administrator kann Zugriffe einsehen, recovery-codes etc.
 
-[^gcrypt]: Encryption tool for git repositories, https://github.com/bluss
-[^gpg]: GNU Privacy Guard, a free tool that implements public key cryptography
-
 
 # Conclusion 
 
-comparison to antoher 2FA
-As discussed at the beginning of the paper, it's worth to be
+This paper has shown how simple it is to secure the access to private data on the
+one hand and critical business data on the other hand.
+
+Of course first there is a need to sensitise people to handle their data and
+credentials more carefull. A statistic of choosen passwords in 2013 shows
+the password *123456* as most used one. And maybe this people also do not
+recognize the advantages of two-factor authentication.
+
+There are a lot of interesting projects with the YubiKey. For example the MIT
+
+In comparision to another two-factor authentication methods, the YubiKey has
+some advantages.
+
+All in all the YubiKey is an device worth to be considering using it.
+
 considering to use two-factor authentication. YubiKey
 Two-factor authentication with a YubiKey makes your login secure and keeps your
 information private. 
+
+other two-factor authentication (TAN), phishing like Nordea Bank, see
+Bruce schneier post
+
+
 
 \newpage
 
