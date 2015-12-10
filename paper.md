@@ -7,14 +7,15 @@ title: YubiKey - Technology and Applications
 author: Susanne Kießling-- \today
 institute: Hochschule Augsburg -- University of Applied Sciences
 email: "susanne.kiessling@hs-augsburg.de"
-keywords: YubiKey, two-factor-authentication, Token, Password, Security
+keywords: YubiKey, two-factor-authentication, one-time password, token,
+          it-security, U2F
 abstract: | 
         Security of passwords and authentication issues in general becomes more
         and more important nowadays. Everybody wants to secure their online
         identity and access to personal data. Two-factor authentication adds an
         extra layer of security to common username and password authentication.
         The hardware token YubiKey supports two-factor authentication. This
-        paper shows an introduction to YubiKey technology and applications.
+        paper gives an introduction to YubiKey technology and applications.
 ---
 
 \pagestyle{plain}
@@ -25,8 +26,9 @@ In almost every authentication process a password is required. There are a lot
 of services and applications with password authentication and the amount of
 passwords to remember increases continuously. Unfortunately in many cases 
 the chosen passwords aren't secure enough. Which means they can be cracked
-e.g. by dictionary attacks. But even if you have chosen a secure password there
-are other risks e.g. the service it is for could leak it. At this point
+e.g. by dictionary attacks. A statistic of choosen passwords in 2013 shows
+the password *123456* as most used one [@statista]. But even if you have chosen a secure password there
+are other risks. For example the service it is for could leak it. At this point
 two factor authentication could be a security improvement. Two-factor
 authentication in general consists of something you know and something you have.
 The YubiKey is a hardware token for two-factor authentication. It's the physical
@@ -35,12 +37,6 @@ authentication solutions the YubiKey has some advantages. Besides that, the
 paper will give an overview of the various use cases, explains the basic concepts
 and introduces the hardware of YubiKey. Furthermore companies use the YubiKey to
 protect their data and systems. This point also will be covered in the paper.
-Bruce Schneier, on Schneier on Security [@bruce].
-
-
-[^ZFS]: A combined file system and logical volume manager designed by Sun Microsystems
-[^BTRFS]: ,,B-tree FS" A copy-on-write linux file system with similar features
-to zfs
 
 
 # Basic information
@@ -85,7 +81,7 @@ equipment to put it on a keychain.
 There are five versions of YubiKey available (see table @tbl:demo). The
 amount of
 functions grows from the first YubiKey (YubiKey Standard) to the latest (YubiKey
-4). A special one is the FIDO U2F[^Fido] which only works with U2F compliant
+4). A special one is the FIDO[^Fido] U2F[^U2F] which only works with U2F compliant
     applications. The features and funtions will be explained in
     [chapter 3](#functions). 
 In addition there are YubiKeys much smaller than the
@@ -94,7 +90,7 @@ common size. It is called the *Nano* version.
 ![YubiKey – The hardware token.](img/yubi_outside_paper.png)
 
 [^Fido]: FIDO = the open-authentication industry consortium
-U2F = Universal Second Factor
+[^U2F]: U2F = Universal Second Factor
 
 
 
@@ -207,8 +203,9 @@ AES[^AES] key.
 Additionally the now encrypted Hex-byte string is encoded to a ModHex string. That
 was made to stay independent from language settings of the operating system.
 
-The validation server receiving the string, [Fig. 4](#OTP) first converts it back to a byte
-string. The next step is to decrypt the string with the same 128-bit AES key
+After matching the YubiKey ID, 
+the validation server first converts the string back to a byte
+string [see Fig. 4]. The next step is to decrypt the string with the same 128-bit AES key
 used by the YubiKey for encrypting. After verifying the checksum and additional
 fields, the received counter is compared with the stored one. If it is lower or
 equal to the stored value on validation server, the one-time password is rejected.
@@ -238,7 +235,7 @@ is manually added to the generated 16 chars static password.
 
 **Smartcard (OpenPGP)**
 The latest versions of YubiKey presents itself to the host not only as USB devices, it
-supports also smartcard functions via CCID. An applet in the context of
+supports also smartcard functions via CCID[^CCID]. An applet in the context of
 data security is for
 example to store OpenPGP keys. PGP stands for Pretty Good Privacy and is an
 open standard for encrypting emails, signatures and authentication. Additionally
@@ -265,20 +262,20 @@ Result: http://www.testsite.com/?otp=niljijfcnfdbjeduvuthuugnvuuvgrnh
 
 U2F stands for *Universal Second Factor* and is an open authentication
 standard. It was created by Yubico and Google, hosted by FIDO -- the
-open-authentication industry consortium. Summarized could U2F explained an a
+open-authentication industry consortium. Summarized could U2F explained as a
 challenge-response protocol which works in the background. It is implemented
 along the one-time password. The user does the same as it were a one-time
 password application. There is a detailed technical description of U2F at the
 developer sites on yubico.com [@u2f].
 
-
+[^CCID]: Chip Card Interface Device
 [^U2F]: Universal Second Factor
 
 # Where to use the YubiKey
 
 The YubiKey can be used for securing access to many applications. First Online
 Applications and Password Managment seems to be the most interesting. Of course
-there are many more applications, some of them will be mentioned.
+there are many more applications, for example disk encryption or system login.
 
 ## Online Applications
 
@@ -307,7 +304,7 @@ is nevertheless collecting and using the data. That is a different matter.
 Google promotes the login with only one username and password to all of their services.
 If this username and password is stolen all services can be accessed and harmed.
 Particularly in this case, two-factor authentication is very helpfull. Google offers
-two-factor authentication with YubiKey via U2F standard.
+two-factor authentication with YubiKey via U2F standard [@google].
 
 
 **GitHub**
@@ -325,7 +322,7 @@ GitHub, the steps have to do in the GitHub account are described:
 
 **Dropbox**
 
-Dropbox supports login with FIDO U2F enabled YubiKeys. It is pretty simple to
+Dropbox supports login with FIDO U2F enabled YubiKeys. It is also pretty simple to
 set up two-factor authentication for a Dropbox account. There is a step-by-step
 instruction on yubico.com [@dropbox].
 
@@ -335,13 +332,8 @@ To manage passwords especially strong passwords which are not easy to remember,
 there are applications called password manager. But also the password manager
 needs to be protected with a strong password. In this case, the YubiKey
 offers an extra layer of security. Password managers offering two-factor
-authentication with the YubiKey are for example KeePass and LastPass.
-
-
-## Other Applications
-
-There are many more applications which can be secured with YubiKey. For example
-disk encryption, system-login XXXXXXXXXXXXXXXXXx
+authentication with the YubiKey are for example KeePass [@keepass] and LastPass
+[@lastpass].
 
 
 # Configuration
@@ -349,7 +341,7 @@ disk encryption, system-login XXXXXXXXXXXXXXXXXx
 To configure the YubiKey there is a tool called *YubiKey Persolization Tool*
 [@configuration]. It is plattform independent. The following functions can
 be configured: OTP (Yubico OTP and OATH-HOTP), Static Password and Challenge Response
-Mode (see [Fig. X](#YubiKey Personalization Tool.). To all of this functions there is a quick and an advanced configuration mode.
+Mode (see [Fig. 6](#YubiKey Personalization Tool.)). To all of this functions there is a quick and an advanced configuration mode.
 Furthermore the tool shows which slots are configured. The default value of slot 1
 is to generate one-time passwords. But this can be configured as wanted. There is also an
 overview of supported features. Of course it is possible to configure the YubiKey with command line interface.
@@ -381,7 +373,7 @@ one of the facts why CERN is using the YubiKey [@mollon].
 With the YubiKey the access to a lot of applications could be improved. In the
 following are some of them mentioned.
 
-<!--
+~~~
 - Remote Access
 - Computer Login
 - Securing Servers
@@ -390,39 +382,79 @@ following are some of them mentioned.
 - Securing Cloud Solutions
 - Identity and Access Management
 - Securing mobile devices
--->
+~~~
 
 ## YubiKey Business Solutions
 
-extra stations to configure more than one YubiKey
-Administrator kann Zugriffe einsehen, recovery-codes etc.
+For large volume orders, Yubico offers a portable programming machine which allows customers to program
+10,000 keys in one hour. If a YubiKey gets lost, the administrator can easily
+disable a YubiKey so that it no longer can be used [@business]. 
 
+<!--
+Administrator kann Zugriffe einsehen, recovery-codes etc.
+-->
+
+Many applications supporting two-factor authentication with the YubiKey are also
+available for business.
 
 # Conclusion 
 
 This paper has shown how simple it is to secure the access to private data on the
 one hand and critical business data on the other hand.
 
+<!--
 Of course first there is a need to sensitise people to handle their data and
 credentials more carefull. A statistic of choosen passwords in 2013 shows
 the password *123456* as most used one [@statista]. And maybe this people also do not
 recognize the advantages of two-factor authentication.
+-->
 
-There are a lot of interesting projects with the YubiKey. For example the MIT
+**Positive Aspects**
 
-In comparision to another two-factor authentication methods, the YubiKey has
-some advantages.
+To summarize the advantages of the YubiKey in few words: leight weight, easy to
+use, many functions and features, supported by many online applications, source
+code is Open Source.
 
-All in all the YubiKey is an device worth to be considering using it.
+Additionally in comparision to other available two-factor authentication
+methods, there are some advantages. One two-factor authentication method which
+is often used is to deliver an authentication code to mobile phones. On mobile
+phone also malware can trigger the delivering of an authentication code. The
+YubiKey needs the presence of the user touching the sensor. Furthermore the
+YubiKey offers transparency on server software. That is not guaranteed on mobile
+phone method. There are many more facts about this topic. A more detailed
+overview of comparision the YubiKey to another two-factor authentication methods
+is available on yubico.com [@compare].
 
-considering to use two-factor authentication. YubiKey
-Two-factor authentication with a YubiKey makes your login secure and keeps your
-information private. 
 
-other two-factor authentication (TAN), phishing like Nordea Bank, see
-Bruce schneier post
+**Aspects to discuss about**
+
+Of course you have to carry the YubiKey around with you. But the *Nano*
+versions which can be hold for example in the notebook, makes it more
+comfortable. It needs a little bit of habituation.
+
+Another fact which is worth of discussion is the limited number of slots which
+can be configured. It is part of philosophy of the YubiKey. If more than two
+slots should be accessed with a single touch, that will be to complicated to
+remember how long to touch the sensor for which slot.
 
 
+**More on the YubiKey**
+
+There are a lot of interesting projects with the YubiKey. For example the
+Massechusats Institute of Technology (MIT) decribes in the paper *Enhanced MIT
+ID Security via One-Time Passcode* [@mit] how the YubiKey could improve the current
+MIT ID card. It is an card using Radio Frequency Identification (RFID)
+technology and it is used to
+establish security across campus by restricting access to certain areas through
+scanners. They mentions that the interactions between MIT ID cards and scanners can be copied and replicated just through sniffing.
+Therefore they implemented a prototype with YubiKey *Neo* and an Android
+application as scanner.
+
+All in all the YubiKey is a device for two-factor authentication worth to be
+considering using it. It makes your logins secure and keeps your information
+private. A topic which becomes more and more important in todays world.
+
+Bruce Schneier, on Schneier on Security [@bruce].
 
 \newpage
 
