@@ -211,7 +211,7 @@ equal to the stored value on the validation server, the one-time password is rej
 Is the counter greater than the stored value, the one-time password is valid
 and the received counter value is stored.
 
-![OTP.](img/otp.png)
+![OTP validation on Yubico Validation Server.](img/otp.png)
 
 [^AES]: Advanced Encryption Standard
 
@@ -326,7 +326,7 @@ instruction on yubico.com [@dropbox].
 
 ## Password Management
 
-To manage passwords especially strong passwords which are not easy to remember,
+To manage passwords, especially strong passwords, which are not easy to remember,
 there are applications called password manager. But also the password manager
 needs to be protected with a strong password. In this case, the YubiKey
 offers an extra layer of security. Password managers offering two-factor
@@ -410,32 +410,27 @@ recognize the advantages of two-factor authentication.
 
 **Positive Aspects**
 
-To summarize the advantages of the YubiKey in few words: it is light weight, easy to
-use, there are many functions and features, it is supported by many online
-applications and the source code is Open Source.
-
-Additionally in comparision to other available two-factor authentication
-methods, there are some advantages. One two-factor authentication method which
-is often used is to deliver an authentication code to mobile phones. On mobile
-phone also malware can trigger the delivering of an authentication code. The
-YubiKey needs the presence of the user touching the sensor. Furthermore the
-YubiKey offers transparency on server software. That is not guaranteed on mobile
-phone method. There are many more facts about this topic. A more detailed
-overview of comparision the YubiKey to another two-factor authentication methods
-is available on yubico.com [@compare].
-
+To summarize the advantages of the YubiKey in few words: it is light weight,
+easy to use, there are many functions and features, it is supported by many
+online applications and the source code is Open Source. Additionally in
+comparision to other available two-factor authentication methods, there are some
+advantages. One two-factor authentication method which is often used is to
+deliver an authentication code to mobile phones. On mobile phone also malware
+can trigger the delivering of an authentication code. The YubiKey needs the
+presence of the user touching the sensor. Furthermore the YubiKey offers
+transparency on server software. That is not guaranteed on mobile phone method.
+There are many more facts about this topic. A more detailed overview of
+comparision the YubiKey to another two-factor authentication methods is
+available on yubico.com [@compare].
 
 **Aspects to discuss**
 
-Of course you have to carry the YubiKey around with you. The *Nano*
-version which fits exactly in the USB port can be a improvement. It needs a little
-time to get used to it.
-
-Another fact which is worth of discussion is the limited number of slots which
-can be configured. It is part of the philosophy of the YubiKey. For more than two
-slots it would be too complicated to
-remember how long to touch the sensor for which slot.
-
+Of course you have to carry the YubiKey around with you. The *Nano* version
+which fits exactly in the USB port can be a improvement. It needs a little time
+to get used to it. Another fact which is worth of discussion is the limited
+number of slots which can be configured. It is part of the philosophy of the
+YubiKey. For more than two slots it would be too complicated to remember how
+long to touch the sensor for which slot.
 
 **More on the YubiKey**
 
@@ -447,10 +442,9 @@ technology and it is used to establish security across the campus by restricting
 access to certain areas through scanners. They mention that the interactions
 between MIT ID cards and scanners can be copied and replicated just through
 sniffing. Therefore they implemented a prototype with YubiKey *Neo* and an
-Android application as scanner.
-
-All in all the YubiKey is a device for two-factor authentication worth to
-consider. It makes your logins secure and keeps your information private. A
-topic which becomes more and more important in todays world.
+Android application as scanner. All in all the YubiKey is a device for
+two-factor authentication worth to consider. It makes your logins secure and
+keeps your information private. A topic which becomes more and more important in
+todays world.
 
 # References
