@@ -3,7 +3,7 @@ all: pandoc
 	@latexmk -pdf paper.tex
 
 pandoc:
-	pandoc --bibliography paper.bib --csl ieee.csl -N -o paper.tex --template=llncs paper.md
+	pandoc --filter pandoc-tablenos --bibliography paper.bib --csl ieee.csl -N -o paper.tex  --template=llncs paper.md
 
 install:
 	mkdir -p ~/.pandoc/templates
