@@ -54,12 +54,13 @@ have
 The first factor is usually a username and password. The second factor is a
 physical token, in this case the YubiKey.
 
-![Concept of two-factor authentication.](img/2fauth.png)
+![Concept of two-factor authentication. Own representation (used image:
+[@picyubi]). ](img/2fauth.png)
 
 ## Acts like a USB keyboard
 
 The basic idea is that the YubiKey acts like a keyboard when it is plugged into a
-USB port. Which means there is no need for additional drivers or client
+USB port which means there is no need for additional drivers or client
 software. The YubiKey will be identified as a standard USB Human Interface
 Device (HID). Therefore it is possible to use the native system drivers. 
 Furthermore no battery is needed. Similar to any other USB keyboard the
@@ -69,8 +70,8 @@ YubiKey is a USB 1.0/2.0 device[@manual chapter 2].
 
 ## The hardware token
 
-The size of the YubiKey is 18mm x 45mm x 3mm and the weight is 3 gram.
-Which means it is a very light weight device. The used material is crush- and
+The size of the YubiKey is 18mm x 45mm x 3mm and the weight is 3 gram
+which means it is a very light weight device. The used material is crush- and
 water-resistant. [Figure 2](#token) shows the YubiKey. There is a touchbutton in
 the middle of the YubiKey. It is a solid-state capacitive touch sensor which
 means it works with a human finger but not with other things touching it by
@@ -81,12 +82,12 @@ There are five versions of YubiKey available (see table @tbl:demo). The
 amount of
 functions grows from the first YubiKey (YubiKey Standard) to the latest (YubiKey
 4). A special one is the FIDO[^Fido] U2F[^U2F] which only works with U2F compliant
-    applications. The features and funtions will be explained in
+    applications. The features and functions will be explained in
     [chapter 3](#functions). 
 In addition there are YubiKeys much smaller than the
 common size. Those are called the *Nano* version.
 
-![YubiKey – The hardware token.](img/yubi_outside_paper.png)
+![YubiKey – The hardware token. Own representation (used image: [@picyubi2]). ](img/yubi_outside_paper.png)
 
 [^Fido]: FIDO = the open-authentication industry consortium
 [^U2F]: U2F = Universal Second Factor
@@ -117,8 +118,6 @@ Online Applications           \ding{52}   \ding{52}      \ding{52}     \ding{56}
 Table: YubiKey versions and some of their functions and features. {#tbl:demo} 
 
 
-
-
 ## How it works
 
 Everytime the YubiKey is plugged into a USB port and the touch sensor is
@@ -129,35 +128,6 @@ be accessed with a short press (0.3 - 1.5 seconds) and the second slot can be ac
 with a long press (2.5 - 5 seconds) [@manual chapter 4.1]. There is also an LED indicator signaling
 the current state of the YubiKey. If the YubiKey is ready to work there is a
 steady green light. A rapidly flashing light means some kind of error.
-
-<!--
-MICRATHENE
-MICRATHENE
-MICRATHENE: Versuche mal mit den Virtuellen Desktops von Gnome zu arbeiten um
-dich nicht so mit dem hin und her klicken zu verwirren alt + strg + pfeil oben | unten
-Und auf dem linken Bildschirm hast du dein PDF, kannst du auch auf n Virtuellen
-Desktop tun!
-
-MICRATHENE!!! nicht vergessen dann :set filetype=pandoc zu machen nachdem du die
-tabelle bearbeitet hast!
--->
-
-<!--
-+----------------------+----------------+-----------------+------------------+----------------------+--------------+
-|                      |  **YubiKey 4** | **YubiKey Neo** | **YubiKey Edge** | **YubiKey Standard** | **Fido U2F** |
-+======================+================+=================+==================+======================+==============+
-|  Static Passwords    | \ding{52}      | \ding{52}       | \ding{52}        | \ding{52}            |  \ding{56}   |
-+----------------------+----------------+-----------------+------------------+----------------------+--------------+
-|  YubiKey OTP         | \ding{52}      | \ding{52}       | \ding{52}        | \ding{52}            |  \ding{56}   |
-+----------------------+----------------+-----------------+------------------+----------------------+--------------+
-|  Smartcard (OpenPGP) |  \ding{52}     | \ding{52}       | \ding{56}        | \ding{56}            |  \ding{56}   |
-+----------------------+----------------+-----------------+------------------+----------------------+--------------+
-|  Fido U2F            |  \ding{52}     | \ding{52}       |  \ding{52}       | \ding{56}            |  \ding{52}   |
-+----------------------+----------------+-----------------+------------------+----------------------+--------------+
-|  Online Applications |  \ding{52}     | \ding{52}       | \ding{52}        |   \ding{52}          |  \ding{52}   |
-+----------------------+----------------+-----------------+------------------+----------------------+--------------+
--->
-
 
 
 # Functions and Features {#functions}
@@ -189,7 +159,8 @@ passcode. The YubiKey ID identifies a YubiKey, it is unique and never changes.
 
 
 ![Generated one-time password. Consists of two major parts: The YubiKey ID and
-the encrypted passcode.](img/otp_output.png)
+the encrypted passcode. Own representation, based
+on: [@security p. 7]. ](img/otp_output.png)
 
 The second part is the encrypted passcode. In the YubiKey Manual
 [@manual] and YubiKey Security Evaluation [@security] the general concept of
@@ -211,11 +182,12 @@ equal to the stored value on the validation server, the one-time password is rej
 Is the counter greater than the stored value, the one-time password is valid
 and the received counter value is stored.
 
-![OTP validation on Yubico Validation Server.](img/otp.png)
+![OTP validation on Yubico Validation Server. Own repres., based
+on: [@picotp]. ](img/otp.png)
 
 [^AES]: Advanced Encryption Standard
 
-
+\newpage
 
 ## Static Password
 
@@ -228,7 +200,8 @@ numbers. It is recommended to combine the static password with a manually
 added part. [Figure 5](#Static password) shows an example. The word *banana*
 is manually added to the generated 16 chars static password.
 
-![Static password combined with manually added part.](img/static_pw.png)
+![Static password combined with manually added part. Own representation. ](img/static_pw.png)
+
 
 ## Further functions and features
 
@@ -269,11 +242,13 @@ developer sites on yubico.com [@u2f].
 
 [^CCID]: Chip Card Interface Device
 
+
 # Where to use the YubiKey
 
 The YubiKey can be used for securing access to many applications. First Online
 Applications and Password Managment seems to be the most interesting. Of course
 there are many more applications, for example disk encryption or system login.
+
 
 
 ## Online Applications
@@ -334,6 +309,7 @@ authentication with the YubiKey are for example KeePass [@keepass] and LastPass
 [@lastpass].
 
 
+
 # Configuration
 
 To configure the YubiKey there is a tool called *YubiKey Personalization Tool*
@@ -346,7 +322,7 @@ overview of supported features. Of course it is also  possible to configure the
 YubiKey with a command line interface.
 
 
-![YubiKey Personalization Tool.](img/config.png)
+![YubiKey Personalization Tool (screenshot).](img/config.png)
 
 # YubiKey for Business
 
@@ -396,6 +372,7 @@ Administrator kann Zugriffe einsehen, recovery-codes etc.
 Many applications supporting two-factor authentication with the YubiKey are also
 available for business.
 
+
 # Conclusion 
 
 This paper has shown how simple it is to secure the access to private data on the
@@ -426,11 +403,12 @@ available on yubico.com [@compare].
 **Aspects to discuss**
 
 Of course you have to carry the YubiKey around with you. The *Nano* version
-which fits exactly in the USB port can be a improvement. It needs a little time
+which fits exactly in the USB port can be an improvement. It needs a little time
 to get used to it. Another fact which is worth of discussion is the limited
 number of slots which can be configured. It is part of the philosophy of the
 YubiKey. For more than two slots it would be too complicated to remember how
 long to touch the sensor for which slot.
+
 
 **More on the YubiKey**
 
@@ -442,9 +420,24 @@ technology and it is used to establish security across the campus by restricting
 access to certain areas through scanners. They mention that the interactions
 between MIT ID cards and scanners can be copied and replicated just through
 sniffing. Therefore they implemented a prototype with YubiKey *Neo* and an
-Android application as scanner. All in all the YubiKey is a device for
+Android application as scanner. 
+
+A very important aspect worth to mention is the security evaluation of the
+YubiKey. This would be an interesting topic for further investigations. There were some security evaluations in the past. For example, by using a non-invasive
+side-channel attack, it was possible to extract the full 128-bit AES key stored
+on the YubiKey. This
+was tested with an older version of the YubiKey, the YubiKey 2 with firmware
+version 2.2.3. With a firmware update the attacks do not apply to, anymore
+[@side]. 
+
+It would be an interesting topic to study evaluations of current YubiKey
+versions. Also the security of the Yubico Validation server is a valid issue to
+investigate.
+
+All in all the YubiKey is a device for
 two-factor authentication worth to consider. It makes your logins secure and
 keeps your information private. A topic which becomes more and more important in
 todays world.
+
 
 # References
